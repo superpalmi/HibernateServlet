@@ -1,6 +1,7 @@
 package com.palmieri.hibernate.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,11 +17,9 @@ import com.palmieri.hibernate.model.User;
 public class UserControllerServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    private UserDAO userDao;
+    private UserDAO userDao = new UserDAO();
 
-    public void init() {
-        userDao = new UserDAO();
-    }
+
 
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response) throws ServletException, IOException {
@@ -44,6 +43,25 @@ public class UserControllerServlet extends HttpServlet {
         dispatcher.forward(request, response);
 
 
+
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        listUsers(request, response);
+
+
+
+
+    }
+
+    private void listUsers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        List<User> users = userDao.readUsers();
+        request.setAttribute("USER_LIST", users);
+        //System.out.println("<li>" + u.getUserName() + " "+ u.getEmail() + " "+ u.getCity() + " "+ u.getPhone()+ "<li>");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("user-list.jsp");
+        dispatcher.forward(request, response);
 
     }
 }

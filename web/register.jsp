@@ -47,6 +47,7 @@ Registra utente
 
 <jsp:include page="success.jsp" />
 
+
 Registra Veicolo
 <br/>
 
@@ -78,6 +79,8 @@ Registra Veicolo
 <p />
 <input type="submit" value="Vehicle Register" />
 </form>
+
+<jsp:include page="/registerVehicle"/>
 
 <jsp:include page="success.jsp" />
 

@@ -24,6 +24,17 @@
         </descriptors>
       </configuration>
     </facet>
+    <facet type="jpa" name="JPA">
+      <configuration>
+        <setting name="validation-enabled" value="true" />
+        <datasource-mapping>
+          <factory-entry name="HibernateServlet" value="16c94e66-0b80-4b6b-be82-4960186de296" />
+        </datasource-mapping>
+        <naming-strategy-map>
+          <unit-entry name="HibernateServlet" />
+        </naming-strategy-map>
+      </configuration>
+    </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />

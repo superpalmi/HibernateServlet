@@ -4,9 +4,15 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.cfg.*;
 import org.hibernate.cfg.Configuration;
 
 import com.palmieri.hibernate.model.User;
+
+import javax.management.Query;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class UserDAO {
 
@@ -26,6 +32,35 @@ public class UserDAO {
             }
             e.printStackTrace();
         }
+    }
+
+
+
+    public List<User> readUsers(){
+
+        List<User> users = new ArrayList<>();
+        Transaction transaction = null;
+        try (Session session = HibernateConf.getSessionFactory().openSession()) {
+            // start a transaction
+            //transaction = session.beginTransaction();
+
+            users = session.createQuery("from User", User.class).list();
+
+
+
+            // commit transaction
+            transaction.commit();
+
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+
+        return users;
+
+
     }
 
 }
