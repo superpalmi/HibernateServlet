@@ -18,7 +18,7 @@
     <%
         List <User> listaUtenti = (List<User>) request.getAttribute("USER_LIST"); %>
     <%
-        if(listaUtenti!=null){
+        //if(listaUtenti!=null){
 
         for (User u : listaUtenti) {
         int i=0;
@@ -43,7 +43,7 @@
     </tr>
     <%
         }
-            }
+            //}
     %>
 </table>
 

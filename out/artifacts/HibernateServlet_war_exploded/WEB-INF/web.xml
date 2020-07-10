@@ -3,4 +3,30 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+    <display-name>HibernateServlet</display-name>
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+    <servlet>
+        <description></description>
+        <display-name>UserControllerServlet</display-name>
+        <servlet-name>UserControllerServlet</servlet-name>
+        <servlet-class>com.palmieri.hibernate.controller.UserControllerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <description></description>
+        <display-name>VehicleControllerServlet</display-name>
+        <servlet-name>VehicleControllerServlet</servlet-name>
+        <servlet-class>com.palmieri.hibernate.controller.VehicleControllerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserControllerServlet</servlet-name>
+        <url-pattern>/UserController</url-pattern>
+
+
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VehicleControllerServlet</servlet-name>
+        <url-pattern>/VehicleControllerServlet</url-pattern>
+    </servlet-mapping>
 </web-app>

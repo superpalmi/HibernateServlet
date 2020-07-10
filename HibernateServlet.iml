@@ -47,5 +47,6 @@
     <orderEntry type="library" name="Hibernate 5.4.11-5.4.11" level="project" />
     <orderEntry type="library" name="mysql-connector-java-8.0.20" level="project" />
     <orderEntry type="library" name="servlet-api.jar" level="project" />
+    <orderEntry type="library" name="jstl-1.2" level="project" />
   </component>
 </module>

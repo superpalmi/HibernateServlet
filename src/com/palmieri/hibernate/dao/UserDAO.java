@@ -18,7 +18,8 @@ public class UserDAO {
 
     public void saveUser(User user) {
         Transaction transaction = null;
-        try (Session session = HibernateConf.getSessionFactory().openSession()) {
+
+        try(Session session = HibernateConf.getSessionFactory().openSession()) {
             // start a transaction
             transaction = session.beginTransaction();
             // save the student object
@@ -26,6 +27,7 @@ public class UserDAO {
             
             // commit transaction
             transaction.commit();
+
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -34,33 +36,86 @@ public class UserDAO {
         }
     }
 
+    public void deleteUser(int userid) {
+        Transaction trns = null;
+
+        try(Session session = HibernateConf.getSessionFactory().openSession()) {
+            trns = session.beginTransaction();
+            User user = (User) session.load(User.class, userid);
+            session.delete(user);
+            session.getTransaction().commit();
+        } catch (RuntimeException e) {
+            if (trns != null) {
+                trns.rollback();
+            }
+            e.printStackTrace();
+        }
+    }
 
 
-    public List<User> readUsers(){
 
-        List<User> users = new ArrayList<>();
+    public List<User> getAllUsers() {
+        List<User> users = new ArrayList<User>();
+        Transaction trns = null;
+        //Session session = HibernateConf.getSessionFactory().openSession();
+        try(Session session = HibernateConf.getSessionFactory().openSession())  {
+            trns = session.beginTransaction();
+            users = session.createQuery("from User").list();
+            //trns.commit();
+        } catch (RuntimeException e) {
+            if (trns != null) {
+                trns.rollback();
+            }
+
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+    public User updateUser(User user){
+
+        Transaction trns = null;
+        //Session session = HibernateConf.getSessionFactory().openSession();
+        try(Session session = HibernateConf.getSessionFactory().openSession()){
+            trns = session.beginTransaction();
+            int id=user.getId();
+            session.get(User.class, id).setUserName(user.getUserName());
+            session.get(User.class, id).setPassword1(user.getPassword1());
+            session.get(User.class, id).setEmail(user.getEmail());
+            session.get(User.class, id).setPhone(user.getPhone());
+            session.get(User.class, id).setCity(user.getCity());
+
+            //session.update(user);
+            trns.commit();
+
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+        return user;
+
+    }
+
+    public User getUser(int id) {
+
         Transaction transaction = null;
+        User user = null;
         try (Session session = HibernateConf.getSessionFactory().openSession()) {
             // start a transaction
-            //transaction = session.beginTransaction();
-
-            users = session.createQuery("from User", User.class).list();
-
-
-
+            transaction = session.beginTransaction();
+            // get an user object
+            user = session.get(User.class, id);
             // commit transaction
             transaction.commit();
-
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             e.printStackTrace();
         }
-
-        return users;
-
-
+        return user;
     }
+
+
+
 
 }

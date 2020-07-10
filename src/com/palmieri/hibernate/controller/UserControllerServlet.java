@@ -13,11 +13,25 @@ import javax.servlet.http.HttpSession;
 
 import com.palmieri.hibernate.dao.UserDAO;
 import com.palmieri.hibernate.model.User;
-@WebServlet("/registerUser")
+@WebServlet("/UserControllerServlet")
 public class UserControllerServlet extends HttpServlet {
+    private static String EDIT_JSP = "/edit.jsp";
+    private static String SHOWALL_JSP = "/showall.jsp";
 
     private static final long serialVersionUID = 1L;
-    private UserDAO userDao = new UserDAO();
+    private UserDAO userDao;
+
+    public UserControllerServlet() throws ServletException {
+        super();
+
+        // create our student db util ... and pass in the conn pool / datasource
+        try {
+            userDao = new UserDAO();
+        }
+        catch (Exception exc) {
+            throw new ServletException(exc);
+        }
+    }
 
 
 
@@ -39,22 +53,45 @@ public class UserControllerServlet extends HttpServlet {
         //passo al middleware DAO per la mappatura in hibernate
         userDao.saveUser(user);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("success.jsp");
-        dispatcher.forward(request, response);
+        RequestDispatcher view = request.getRequestDispatcher(SHOWALL_JSP);
+        request.setAttribute("users", userDao.getAllUsers());
+        view.forward(request, response);
 
 
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String forward="";
+        String action = request.getParameter("action");
+        if (action.equalsIgnoreCase("delete")){
+            forward = SHOWALL_JSP;
+            int userId = Integer.parseInt(request.getParameter("userId"));
+            userDao.deleteUser(userId);
+            request.setAttribute("users", userDao.getAllUsers());
 
-        listUsers(request, response);
+        } else if (action.equalsIgnoreCase("edit")){
+            forward = EDIT_JSP;
+            int userId = Integer.parseInt(request.getParameter("userId"));
+            User user = userDao.getUser(userId);
+            userDao.updateUser(user);
+            request.setAttribute("user", user);
+        } else if (action.equalsIgnoreCase("showAll")){
+            forward = SHOWALL_JSP;
+            request.setAttribute("users", userDao.getAllUsers());
+        }else if(action.equalsIgnoreCase("insert")){
+            forward= 
+
+        }
 
 
-
-
+        else {
+            forward = EDIT_JSP;
+        }
+        RequestDispatcher view = request.getRequestDispatcher(forward);
+        view.forward(request, response);
     }
-
+    /*
     private void listUsers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         List<User> users = userDao.readUsers();
@@ -63,5 +100,5 @@ public class UserControllerServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("user-list.jsp");
         dispatcher.forward(request, response);
 
-    }
+    }*/
 }
