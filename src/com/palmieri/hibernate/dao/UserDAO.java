@@ -22,7 +22,7 @@ public class UserDAO {
         try(Session session = HibernateConf.getSessionFactory().openSession()) {
             // start a transaction
             transaction = session.beginTransaction();
-            // save the student object
+            // save the vehicle object
             session.save(user);
             
             // commit transaction
@@ -61,7 +61,7 @@ public class UserDAO {
         try(Session session = HibernateConf.getSessionFactory().openSession())  {
             trns = session.beginTransaction();
             users = session.createQuery("from User").list();
-            //trns.commit();
+            trns.commit();
         } catch (RuntimeException e) {
             if (trns != null) {
                 trns.rollback();
@@ -72,26 +72,29 @@ public class UserDAO {
         return users;
     }
 
-    public User updateUser(User user){
+    public void updateUser(User user){
 
         Transaction trns = null;
         //Session session = HibernateConf.getSessionFactory().openSession();
         try(Session session = HibernateConf.getSessionFactory().openSession()){
             trns = session.beginTransaction();
-            int id=user.getId();
-            session.get(User.class, id).setUserName(user.getUserName());
-            session.get(User.class, id).setPassword1(user.getPassword1());
-            session.get(User.class, id).setEmail(user.getEmail());
-            session.get(User.class, id).setPhone(user.getPhone());
-            session.get(User.class, id).setCity(user.getCity());
 
-            //session.update(user);
+            /*
+            session.get(User.class, id).setUserName(userName);
+            session.get(User.class, id).setPassword1(password);
+            session.get(User.class, id).setEmail(email);
+            session.get(User.class, id).setPhone(phone);
+            session.get(User.class, id).setCity(city); */
+
+            session.update(user);
             trns.commit();
+            session.flush();
+            session.close();
 
         } catch (RuntimeException e) {
             e.printStackTrace();
         }
-        return user;
+
 
     }
 

@@ -13,8 +13,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "users")
 public class User implements Serializable {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+   @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @Column(name="username", nullable = false)
@@ -28,6 +29,7 @@ public class User implements Serializable {
     private String phone;
     @Column(name="city", nullable = false)
     private String city;
+
 
 
 

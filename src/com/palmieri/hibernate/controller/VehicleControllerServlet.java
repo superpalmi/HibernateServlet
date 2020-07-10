@@ -1,5 +1,6 @@
 package com.palmieri.hibernate.controller;
 
+import com.palmieri.hibernate.dao.UserDAO;
 import com.palmieri.hibernate.dao.VehicleDAO;
 import com.palmieri.hibernate.model.User;
 import com.palmieri.hibernate.model.Vehicle;
@@ -16,11 +17,82 @@ import java.io.IOException;
 public class VehicleControllerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private VehicleDAO vehicleDAO;
-    public void init(){
-        this.vehicleDAO=new VehicleDAO();
+    private static String EDIT_JSP = "/vehicle-edit.jsp";
+    private static String SHOWALL_JSP = "/vehicle-showall.jsp?action=showAll";
+    private static String REGISTER_JSP="/vehicle-register.jsp";
+
+
+    private VehicleDAO vehicleDao;
+    public VehicleControllerServlet() throws ServletException {
+        super();
+
+        // create our student db util ... and pass in the conn pool / datasource
+        try {
+            vehicleDao = new VehicleDAO();
+        }
+        catch (Exception exc) {
+            throw new ServletException(exc);
+        }
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        //inserisco i valori nel middleware DAO
+        insertVehicle(request, response);
+        //inserisco i valori nella richiesta
+      request.setAttribute("vehicles", vehicleDao.getAllVehicles());
+
+
+
+    }
+
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String forward="";
+        String action = request.getParameter("action");
+        if (action.equalsIgnoreCase("delete")){
+            forward = SHOWALL_JSP;
+            int userId = Integer.parseInt(request.getParameter("vehicleId"));
+            vehicleDao.deleteVehicle(userId);
+            request.setAttribute("users", vehicleDao.getAllVehicles());
+
+        } else if (action.equalsIgnoreCase("edit")){
+            forward = EDIT_JSP;
+            editVehicle(request, response);
+            request.setAttribute("users", vehicleDao.getAllVehicles());
+        } else if (action.equalsIgnoreCase("showAll")){
+            forward = SHOWALL_JSP;
+            request.setAttribute("users", vehicleDao.getAllVehicles());
+        }else {
+            forward = SHOWALL_JSP;
+            request.setAttribute("users", vehicleDao.getAllVehicles());
+        }
+
+        RequestDispatcher view = request.getRequestDispatcher(forward);
+        view.forward(request, response);
+    }
+
+    private void editVehicle(HttpServletRequest request, HttpServletResponse response) {
+        String brand = request.getParameter("brand");
+        String model = request.getParameter("model");
+        String plate = request.getParameter("plate");
+        String type = request.getParameter("type");
+        String immdate = request.getParameter("registrationDate");
+        int id = Integer.parseInt(request.getParameter("vehicleId"));
+        //creo l'entità veicolo con i valori
+        Vehicle vehicle = new Vehicle();
+        vehicle.setBrand(brand);
+        vehicle.setModel(model);
+        vehicle.setPlate(plate);
+        vehicle.setImmdate(immdate);
+        vehicle.setType(type);
+        //passo al middleware DAO per la mappatura in hibernate
+        VehicleDAO.saveVehicle(vehicle);
+
+        //passo al middleware DAO per la mappatura in hibernate
+        vehicleDao.updateVehicle(vehicle);
+    }
+
+    private void insertVehicle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //prendo i valori dalla form di register
         String brand = request.getParameter("brand");
         String model = request.getParameter("model");
@@ -33,12 +105,8 @@ public class VehicleControllerServlet extends HttpServlet {
         vehicle.setModel(model);
         vehicle.setPlate(plate);
         vehicle.setImmdate(immdate);
-
         //passo al middleware DAO per la mappatura in hibernate
         VehicleDAO.saveVehicle(vehicle);
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher("success.jsp");
-        dispatcher.forward(request, response);
     }
 
 

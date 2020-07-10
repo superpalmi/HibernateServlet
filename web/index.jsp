@@ -15,9 +15,13 @@
   <body>
   <h1> Benvenuto </h1>
   <br/>
-  <a href="register.jsp"> Registra un nuovo Utente</a>
+  <a href="user-register.jsp"> Registra un nuovo Utente</a>
   <br/>
-  <a href="showall.jsp"> Guarda la lista degli Utenti </a>
+  <a href="UserControllerServlet?action=showAll"> Guarda la lista degli Utenti </a>
+  <br/>
+  <a href="vehicle-register.jsp"> Registra un nuovo Veicolo</a>
+  <br/>
+  <a href="VehicleControllerServlet?action=showAll"> Guarda la lista dei Veicoli </a>
 
   </body>
 </html>

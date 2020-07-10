@@ -13,29 +13,31 @@
     <title>Show All Users</title>
 </head>
 <body>
-<table border=1>
+<table border=1 >
     <thead>
     <tr>
-        <th>User Id</th>
-        <th>UserName</th>
-        <th>Email</th>
+        <th>Vehicle Id</th>
+        <th>Brand</th>
+        <th>Model</th>
+        <th>Plate</th>
         <th colspan=2>Action</th>
     </tr>
     </thead>
     <tbody>
 
-    <c:forEach items="${users}" var="user">
+    <c:forEach items="${vehicles}" var="vehicle">
         <tr>
-            <td><c:out value="${user.id}" /></td>
-            <td><c:out value="${user.userName}" /></td>
-            <td><c:out value="${user.email}" /></td>
+            <td><c:out value="${vehicle.id}" /></td>
+            <td><c:out value="${vehicle.brand}" /></td>
+            <td><c:out value="${vehicle.model}" /></td>
+            <td><c:out value="${vehicle.plate}" /></td>
 
-            <td><a href="UserControllerServlet?action=edit&userId=<c:out value="${user.id}"/>">Update</a></td>
-            <td><a href="UserControllerServlet?action=delete&userId=<c:out value="${user.id}"/>">Delete</a></td>
+            <td><a href="VehicleControllerServlet?action=edit&vehicleId=<c:out value="${vehicle.id}"/>">Update</a></td>
+            <td><a href="UserControllerServlet?action=delete&vehicleId=<c:out value="${vehicle.id}"/>">Delete</a></td>
         </tr>
     </c:forEach>
     </tbody>
 </table>
-<p><a href="UserController?action=insert">Add User</a></p>
+<p><a href="/vehicle-register.jsp">Add vehicle</a></p>
 </body>
 </html>
