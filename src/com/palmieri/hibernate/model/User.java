@@ -33,6 +33,8 @@ public class User implements Serializable {
 
 
 
+
+
     public int getId() {
         return id;
     }
@@ -80,5 +82,7 @@ public class User implements Serializable {
     public void setCity(String city) {
         this.city = city;
     }
+
+
 
 }

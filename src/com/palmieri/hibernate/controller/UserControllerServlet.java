@@ -39,13 +39,19 @@ public class UserControllerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response) throws ServletException, IOException {
         //prendo i valori dalla form di register
+       String forward ="";
+        if(request.getSession().getAttribute("user")!=null){
 
-        String action = request.getParameter("action");
-        if (action=="edit"){
-            editUser(request,response);
-        }else insertUser(request, response);
-        request.setAttribute("users", userDao.getAllUsers());
-        RequestDispatcher view = request.getRequestDispatcher(SHOWALL_JSP);
+            if(request.getParameter("action")!=null && request.getParameter("action").equalsIgnoreCase("edit")){
+                String action = request.getParameter("action");
+                editUser(request,response);
+                request.setAttribute("users", userDao.getAllUsers());
+                forward=SHOWALL_JSP;
+
+            }
+        } else  insertUser(request, response);
+        forward=("index.jsp");
+        RequestDispatcher view = request.getRequestDispatcher(forward);
        // response.sendRedirect("user-showall.jsp");
 
         view.forward(request, response);
@@ -55,34 +61,44 @@ public class UserControllerServlet extends HttpServlet {
 
     }
 
+
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String forward="";
 
         String action = request.getParameter("action");
-        if(action!=null) {
-            if (action.equalsIgnoreCase("delete")) {
-                forward = SHOWALL_JSP;
-                int userId = Integer.parseInt(request.getParameter("userId"));
-                userDao.deleteUser(userId);
-                request.setAttribute("users", userDao.getAllUsers());
+        if(request.getSession().getAttribute("user")!=null) {
+            if (action != null) {
+                if (action.equalsIgnoreCase("delete")) {
+                    forward = SHOWALL_JSP;
+                    int userId = Integer.parseInt(request.getParameter("userId"));
+                    userDao.deleteUser(userId);
+                    request.setAttribute("users", userDao.getAllUsers());
 
-            } else if (action.equalsIgnoreCase("edit")) {
-                forward = EDIT_JSP;
-                int i=Integer.parseInt(request.getParameter("userId"));
-                //editUser(request, response);
-                request.setAttribute("userId", userDao.getUser(i));
-            } else if (action.equalsIgnoreCase("showAll")) {
-                forward = SHOWALL_JSP;
-                request.setAttribute("users", userDao.getAllUsers());
-            } else {
-                forward = SHOWALL_JSP;
-                request.setAttribute("users", userDao.getAllUsers());
+                } else if (action.equalsIgnoreCase("edit")) {
+                    forward = EDIT_JSP;
+                    int i = Integer.parseInt(request.getParameter("userId"));
+                    //editUser(request, response);
+                    request.setAttribute("userId", userDao.getUser(i));
+                } else if (action.equalsIgnoreCase("showAll")) {
+                    forward = SHOWALL_JSP;
+                    request.setAttribute("users", userDao.getAllUsers());
+                } else {
+                    forward = SHOWALL_JSP;
+                    request.setAttribute("users", userDao.getAllUsers());
+                }
+
+                RequestDispatcher view = request.getRequestDispatcher(forward);
+                view.forward(request, response);
             }
-
+        } else {
+            forward=("user-login.jsp");
             RequestDispatcher view = request.getRequestDispatcher(forward);
             view.forward(request, response);
+
         }
     }
+
 
 
     private void editUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
@@ -115,6 +131,7 @@ public class UserControllerServlet extends HttpServlet {
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
         String city = request.getParameter("city");
+        //boolean auth = request.getParameter("auth");
         //creo l'entità utente con i valori
         User user = new User();
         user.setUserName(userName);

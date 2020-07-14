@@ -37,9 +37,21 @@ public class VehicleControllerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         //inserisco i valori nel middleware DAO
-        insertVehicle(request, response);
+
+        //String action = request.getParameter("action");
+        if(request.getParameter("action")!=null && request.getParameter("action").equalsIgnoreCase("edit")){
+            String action = request.getParameter("action");
+            editVehicle(request,response);
+
+        }else insertVehicle(request, response);
+        request.setAttribute("vehicles", vehicleDao.getAllVehicles());
+        RequestDispatcher view = request.getRequestDispatcher(SHOWALL_JSP);
+
+        view.forward(request, response);
+
+
         //inserisco i valori nella richiesta
-      request.setAttribute("vehicles", vehicleDao.getAllVehicles());
+
 
 
 
@@ -51,20 +63,21 @@ public class VehicleControllerServlet extends HttpServlet {
         String action = request.getParameter("action");
         if (action.equalsIgnoreCase("delete")){
             forward = SHOWALL_JSP;
-            int userId = Integer.parseInt(request.getParameter("vehicleId"));
-            vehicleDao.deleteVehicle(userId);
-            request.setAttribute("users", vehicleDao.getAllVehicles());
+            int vehicleId = Integer.parseInt(request.getParameter("vehicleId"));
+            vehicleDao.deleteVehicle(vehicleId);
+            request.setAttribute("vehicles", vehicleDao.getAllVehicles());
 
         } else if (action.equalsIgnoreCase("edit")){
             forward = EDIT_JSP;
-            editVehicle(request, response);
-            request.setAttribute("users", vehicleDao.getAllVehicles());
+            int i=Integer.parseInt(request.getParameter("vehicleId"));
+            //editUser(request, response);
+            request.setAttribute("vehicleId", vehicleDao.getVehicle(i));
         } else if (action.equalsIgnoreCase("showAll")){
             forward = SHOWALL_JSP;
-            request.setAttribute("users", vehicleDao.getAllVehicles());
+            request.setAttribute("vehicles", vehicleDao.getAllVehicles());
         }else {
             forward = SHOWALL_JSP;
-            request.setAttribute("users", vehicleDao.getAllVehicles());
+            request.setAttribute("vehicles", vehicleDao.getAllVehicles());
         }
 
         RequestDispatcher view = request.getRequestDispatcher(forward);
@@ -80,13 +93,12 @@ public class VehicleControllerServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("vehicleId"));
         //creo l'entità veicolo con i valori
         Vehicle vehicle = new Vehicle();
+        vehicle.setId(id);
         vehicle.setBrand(brand);
         vehicle.setModel(model);
         vehicle.setPlate(plate);
         vehicle.setImmdate(immdate);
         vehicle.setType(type);
-        //passo al middleware DAO per la mappatura in hibernate
-        VehicleDAO.saveVehicle(vehicle);
 
         //passo al middleware DAO per la mappatura in hibernate
         vehicleDao.updateVehicle(vehicle);

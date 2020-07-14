@@ -16,7 +16,7 @@
 <body>
 Modifica Veicolo
 <br/>
-<form action="<%=request.getContextPath()%>/VehicleControllerServlet?action=edit&vehicleId=<%=request.getParameter("vehicleId")%>" method="get">
+<form action="<%=request.getContextPath()%>/VehicleControllerServlet?action=edit&vehicleId=<%=request.getParameter("vehicleId")%>" method="post">
     <table cellpadding="3pt">
     <tr>
         <td>Marca :</td>
@@ -46,7 +46,7 @@ Modifica Veicolo
 </form>
 
 
-
+<p><a href="/index.jsp">torna alla home</a></p>
 
 
 

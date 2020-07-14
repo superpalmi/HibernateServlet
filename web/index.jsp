@@ -22,6 +22,11 @@
   <a href="vehicle-register.jsp"> Registra un nuovo Veicolo</a>
   <br/>
   <a href="VehicleControllerServlet?action=showAll"> Guarda la lista dei Veicoli </a>
+  <br/>
+  <a href="reservation-register.jsp"> Registra una prenotazione</a>
+  <br/>
+  <a href="ReservationControllerServlet?action=showAll">Guarda La lista delle prenotazioni</a>
+  <br/>
 
   </body>
 </html>

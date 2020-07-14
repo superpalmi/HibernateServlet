@@ -43,16 +43,20 @@
             <td>City :</td>
             <td><input type="text" name="city" size="30" /></td>
         </tr>
+        <tr>
+            <td>Authorization:</td>
+            <td><input type="text" name="auth" size="30" /></td>
+        </tr>
     </table>
     <p />
     <input type="submit" value="Register" />
 </form>
 
-<jsp:include page="user-showall.jsp"></jsp:include>
 
 
 
 
+<p><a href="/index.jsp">torna alla home</a></p>
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

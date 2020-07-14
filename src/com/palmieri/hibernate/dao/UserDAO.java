@@ -36,6 +36,32 @@ public class UserDAO {
         }
     }
 
+    public static boolean checkUser(String username,String password)
+    {   Transaction transaction = null;
+
+        User user=null;
+        try (Session session = HibernateConf.getSessionFactory().openSession()) {
+            transaction=session.beginTransaction();
+            user=(User) session.createQuery("from User u where u.userName =:username").setParameter("username", username);
+            if (user != null && user.getPassword1().equals(password)) {
+                return true;
+            }
+
+            transaction.commit();
+
+
+
+
+        }
+        catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public void deleteUser(int userid) {
         Transaction trns = null;
 
@@ -117,6 +143,8 @@ public class UserDAO {
         }
         return user;
     }
+
+
 
 
 

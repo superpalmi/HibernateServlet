@@ -32,12 +32,14 @@
             <td><c:out value="${vehicle.model}" /></td>
             <td><c:out value="${vehicle.plate}" /></td>
 
+            <td><a href="ReservationControllerServlet?action=create&vehicleId=<c:out value="${vehicle.id}"/>">Prenota</a></td>
             <td><a href="VehicleControllerServlet?action=edit&vehicleId=<c:out value="${vehicle.id}"/>">Update</a></td>
-            <td><a href="UserControllerServlet?action=delete&vehicleId=<c:out value="${vehicle.id}"/>">Delete</a></td>
+            <td><a href="VehicleControllerServlet?action=delete&vehicleId=<c:out value="${vehicle.id}"/>">Delete</a></td>
         </tr>
     </c:forEach>
     </tbody>
 </table>
 <p><a href="/vehicle-register.jsp">Add vehicle</a></p>
+<p><a href="/index.jsp">torna alla home</a></p>
 </body>
 </html>
