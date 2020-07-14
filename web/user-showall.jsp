@@ -36,7 +36,7 @@
     </c:forEach>
     </tbody>
 </table>
-<p><a href="/user-register.jsp">Add User</a></p>
+
 <p><a href="/index.jsp">torna alla home</a></p>
 </body>
 </html>

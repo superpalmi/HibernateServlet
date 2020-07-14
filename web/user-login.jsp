@@ -11,7 +11,7 @@
     <title> Login </title>
 </head>
 <body>
-<h1> Registra Utente </h1>
+<h1> Login Utente </h1>
 <br/>
 <form action="<%=request.getContextPath()%>/LoginControllerServlet" method="post">
     <table cellpadding="3pt">
@@ -27,7 +27,7 @@
 
     </table>
     <p />
-    <input type="submit" value="Register" />
+    <input type="submit" value="Login" />
 </form>
 
 

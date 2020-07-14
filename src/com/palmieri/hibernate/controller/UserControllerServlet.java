@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.palmieri.hibernate.dao.UserDAO;
+import com.palmieri.hibernate.model.Reservation;
 import com.palmieri.hibernate.model.User;
 @WebServlet("/UserControllerServlet")
 public class UserControllerServlet extends HttpServlet {
@@ -134,11 +135,13 @@ public class UserControllerServlet extends HttpServlet {
         //boolean auth = request.getParameter("auth");
         //creo l'entità utente con i valori
         User user = new User();
+        Reservation reservation=new Reservation();
         user.setUserName(userName);
         user.setPassword1(password);
         user.setEmail(email);
         user.setPhone(phone);
         user.setCity(city);
+        user.setReservation(reservation);
         //passo al middleware DAO per la mappatura in hibernate
         userDao.saveUser(user);
 

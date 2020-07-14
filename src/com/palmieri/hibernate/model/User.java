@@ -3,12 +3,7 @@ package com.palmieri.hibernate.model;
 import java.io.Serial;
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
@@ -29,6 +24,13 @@ public class User implements Serializable {
     private String phone;
     @Column(name="city", nullable = false)
     private String city;
+
+
+
+    @OneToOne
+    @JoinColumn(name="ReservationId")
+    private Reservation reservation;
+
 
 
 
@@ -81,6 +83,13 @@ public class User implements Serializable {
 
     public void setCity(String city) {
         this.city = city;
+    }
+    public Reservation getReservation() {
+        return reservation;
+    }
+
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
     }
 
 

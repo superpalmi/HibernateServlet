@@ -105,7 +105,7 @@ public class ReservationDAO {
         try(Session session = HibernateConf.getSessionFactory().openSession())  {
             trns = session.beginTransaction();
             ///vehicle = res.getVehicle();
-            vehicle = (Vehicle) session.createQuery("select Vehicle from Vehicle join Reservation res on res.vehicle.id=Vehicle.id where "+ vehicleId+"=res.vehicle.id");
+            vehicle = (Vehicle) session.createQuery(" from Vehicle join Reservation  on Reservation.vehicle.id=Vehicle.id where "+ vehicleId+"=Reservation .vehicle.id");
         } catch (RuntimeException e) {
             if (trns != null) {
                 trns.rollback();

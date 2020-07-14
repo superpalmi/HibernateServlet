@@ -15,18 +15,18 @@
   <body>
   <h1> Benvenuto </h1>
   <br/>
-  <a href="user-register.jsp"> Registra un nuovo Utente</a>
-  <br/>
   <a href="UserControllerServlet?action=showAll"> Guarda la lista degli Utenti </a>
   <br/>
   <a href="vehicle-register.jsp"> Registra un nuovo Veicolo</a>
   <br/>
-  <a href="VehicleControllerServlet?action=showAll"> Guarda la lista dei Veicoli </a>
-  <br/>
-  <a href="reservation-register.jsp"> Registra una prenotazione</a>
+  <a href="VehicleControllerServlet?action=showAll"> Guarda la lista dei Veicoli e prenotane uno</a>
   <br/>
   <a href="ReservationControllerServlet?action=showAll">Guarda La lista delle prenotazioni</a>
   <br/>
+
+  <a href="LogoutControllerServlet">Effettua il Log Out</a>
+  <br/>
+
 
   </body>
 </html>

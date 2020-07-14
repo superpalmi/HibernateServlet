@@ -21,6 +21,8 @@
         <th>Vehicle Id</th>
         <th>Data di Inizio</th>
         <th>Data di Fine</th>
+        <th>Username</th>
+        <th>Targa Veicolo</th>
         <th colspan=2>Action</th>
     </tr>
     </thead>
@@ -29,12 +31,13 @@
     <c:forEach items="${reservations}" var="reservation">
         <tr>
             <td><c:out value="${reservation.id}" /></td>
-            <td><c:out value="${reservation.userId}" /></td>
-            <td><c:out value="${reservation.vehicleId}" /></td>
+            <td><c:out value="${reservation.user.id}" /></td>
+            <td><c:out value="${reservation.vehicle.id}" /></td>
             <td><c:out value="${reservation.dataInizio}" /></td>
             <td><c:out value="${reservation.dataFine}" /></td>
-            <td><c:out value="${reservation.user.username}" /></td>
-            <td><c:out value="${reservation.vehicle.brand}" /></td>
+            <td><c:out value="${reservation.user.userName}" /></td>
+            <td><c:out value="${reservation.vehicle.plate}" /></td>
+            <td><c:out value="${reservation.vehicle.plate}" /></td>
 
 
             <td><a href="ReservationControllerServlet?action=edit&reservationId=<c:out value="${reservation.id}"/>">Update</a></td>
@@ -50,8 +53,7 @@
 
 
 </body>
-<p><a href="/user-register.jsp">Add Reservation</a></p>
-<p><a href="/index.jsp">torna alla home</a></p>
+<p><a href="/index.jsp">torna alla DashBoard</a></p>
 
 
 </body>

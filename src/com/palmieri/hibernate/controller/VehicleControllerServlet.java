@@ -13,13 +13,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/registerVehicle")
+@WebServlet("/VehicleControllerServlet")
 public class VehicleControllerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private static String EDIT_JSP = "/vehicle-edit.jsp";
     private static String SHOWALL_JSP = "/vehicle-showall.jsp?action=showAll";
     private static String REGISTER_JSP="/vehicle-register.jsp";
+    private static String LOGIN_JSP="/user-login.jsp";
 
 
     private VehicleDAO vehicleDao;
@@ -39,18 +40,26 @@ public class VehicleControllerServlet extends HttpServlet {
         //inserisco i valori nel middleware DAO
 
         //String action = request.getParameter("action");
-        if(request.getParameter("action")!=null && request.getParameter("action").equalsIgnoreCase("edit")){
-            String action = request.getParameter("action");
-            editVehicle(request,response);
+        if(request.getSession().getAttribute("user")!=null) {
+            if (request.getParameter("action") != null && request.getParameter("action").equalsIgnoreCase("edit")) {
+                String action = request.getParameter("action");
+                editVehicle(request, response);
 
-        }else insertVehicle(request, response);
-        request.setAttribute("vehicles", vehicleDao.getAllVehicles());
-        RequestDispatcher view = request.getRequestDispatcher(SHOWALL_JSP);
+            } else insertVehicle(request, response);
+            request.setAttribute("vehicles", vehicleDao.getAllVehicles());
+            RequestDispatcher view = request.getRequestDispatcher(SHOWALL_JSP);
 
-        view.forward(request, response);
+            view.forward(request, response);
+        }else{
+            RequestDispatcher view = request.getRequestDispatcher(LOGIN_JSP);
+
+            view.forward(request, response);
+        }
 
 
-        //inserisco i valori nella richiesta
+
+
+
 
 
 
@@ -61,24 +70,26 @@ public class VehicleControllerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String forward="";
         String action = request.getParameter("action");
-        if (action.equalsIgnoreCase("delete")){
-            forward = SHOWALL_JSP;
-            int vehicleId = Integer.parseInt(request.getParameter("vehicleId"));
-            vehicleDao.deleteVehicle(vehicleId);
-            request.setAttribute("vehicles", vehicleDao.getAllVehicles());
+        if(request.getSession().getAttribute("user")!=null) {
+            if (action.equalsIgnoreCase("delete")) {
+                forward = SHOWALL_JSP;
+                int vehicleId = Integer.parseInt(request.getParameter("vehicleId"));
+                vehicleDao.deleteVehicle(vehicleId);
+                request.setAttribute("vehicles", vehicleDao.getAllVehicles());
 
-        } else if (action.equalsIgnoreCase("edit")){
-            forward = EDIT_JSP;
-            int i=Integer.parseInt(request.getParameter("vehicleId"));
-            //editUser(request, response);
-            request.setAttribute("vehicleId", vehicleDao.getVehicle(i));
-        } else if (action.equalsIgnoreCase("showAll")){
-            forward = SHOWALL_JSP;
-            request.setAttribute("vehicles", vehicleDao.getAllVehicles());
-        }else {
-            forward = SHOWALL_JSP;
-            request.setAttribute("vehicles", vehicleDao.getAllVehicles());
-        }
+            } else if (action.equalsIgnoreCase("edit")) {
+                forward = EDIT_JSP;
+                int i = Integer.parseInt(request.getParameter("vehicleId"));
+                //editUser(request, response);
+                request.setAttribute("vehicleId", vehicleDao.getVehicle(i));
+            } else if (action.equalsIgnoreCase("showAll")) {
+                forward = SHOWALL_JSP;
+                request.setAttribute("vehicles", vehicleDao.getAllVehicles());
+            } else {
+                forward = SHOWALL_JSP;
+                request.setAttribute("vehicles", vehicleDao.getAllVehicles());
+            }
+        }else forward = LOGIN_JSP;
 
         RequestDispatcher view = request.getRequestDispatcher(forward);
         view.forward(request, response);

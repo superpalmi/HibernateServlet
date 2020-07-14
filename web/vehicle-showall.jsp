@@ -26,6 +26,7 @@
     <tbody>
 
     <c:forEach items="${vehicles}" var="vehicle">
+
         <tr>
             <td><c:out value="${vehicle.id}" /></td>
             <td><c:out value="${vehicle.brand}" /></td>

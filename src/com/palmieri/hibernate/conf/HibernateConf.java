@@ -1,6 +1,7 @@
 package com.palmieri.hibernate.conf;
 import java.util.Properties;
 
+import com.palmieri.hibernate.model.Reservation;
 import com.palmieri.hibernate.model.User;
 import com.palmieri.hibernate.model.Vehicle;
 import org.hibernate.SessionFactory;
@@ -26,7 +27,7 @@ public class HibernateConf {
                     Properties settings = new Properties();
                     settings.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
                     settings.put(Environment.URL, "jdbc:mysql://localhost:3306/jwt?useLegacyDatetimeCode=false&amp&serverTimezone=Europe/Amsterdam&amp&useSSL=false");
-                    settings.put(Environment.USER, "root");
+                    settings.put(Environment.USER, "user");
                     settings.put(Environment.PASS, "si2001");
                     settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL8Dialect");
 
@@ -39,6 +40,7 @@ public class HibernateConf {
                     configuration.setProperties(settings);
                     configuration.addAnnotatedClass(User.class);
                     configuration.addAnnotatedClass(Vehicle.class);
+                    configuration.addAnnotatedClass(Reservation.class);
 
 
                     ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()

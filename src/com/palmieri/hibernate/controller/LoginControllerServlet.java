@@ -17,17 +17,21 @@ public class LoginControllerServlet extends HttpServlet {
         String userId = request.getParameter("username");
         String password = request.getParameter("password");
         LoginDAO loginService = new LoginDAO();
+        //se le password sono valide crea la sessione con l'utente corrente, altrimenti ritorna alla home
         boolean result = loginService.authenticateUser(userId, password);
         User user = loginService.getUserByUserName(userId);
         if(result == true){
             request.getSession().setAttribute("user", user);
+            request.getSession().setAttribute("id", user.getId());
             response.sendRedirect("index.jsp");
         }
         else{
-            response.sendRedirect("error.jsp");
+            response.sendRedirect("home.jsp");
         }
 
 
     }
+
+    //aggiungere una get che ritorna alla index se si è già registrati
 
 }

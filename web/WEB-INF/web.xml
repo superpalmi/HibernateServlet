@@ -5,7 +5,7 @@
          version="4.0">
     <display-name>HibernateServlet</display-name>
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>home.jsp</welcome-file>
     </welcome-file-list>
     <servlet>
         <description></description>
@@ -19,6 +19,7 @@
         <servlet-name>VehicleControllerServlet</servlet-name>
         <servlet-class>com.palmieri.hibernate.controller.VehicleControllerServlet</servlet-class>
     </servlet>
+
     <servlet-mapping>
         <servlet-name>UserControllerServlet</servlet-name>
         <url-pattern>/UserController</url-pattern>
@@ -27,6 +28,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>VehicleControllerServlet</servlet-name>
-        <url-pattern>/VehicleControllerServlet</url-pattern>
+        <url-pattern>/VehicleController</url-pattern>
     </servlet-mapping>
+
 </web-app>

@@ -14,16 +14,8 @@
 
 <h1> Registra Prenotazione</h1>
 <br/>
-<form action="<%=request.getContextPath()%>/ReservationControllerServlet" method="post">
+<form action="<%=request.getContextPath()%>/ReservationControllerServlet?action=insert&vehicleId=<%=request.getParameter("vehicleId")%>" method="post">
     <table cellpadding="3pt">
-        <tr>
-            <td>User Id :</td>
-            <td><input type="text" name="userId" size="30" /></td>
-        </tr>
-        <tr>
-            <td>Vehicle Id:</td>
-            <td><input type="text" name="vehicleId" size="30" /></td>
-        </tr>
         <tr>
             <td>Data di inizio</td>
             <td><input type="text" name="dataInizio" size="30" /></td>

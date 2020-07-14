@@ -21,13 +21,18 @@ public class ReservationControllerServlet extends HttpServlet {
     private static String EDIT_JSP = "/reservation-edit.jsp";
     private static String SHOWALL_JSP = "/reservation-showall.jsp?action=showAll";
     private static String REGISTER_JSP="/reservation-register.jsp";
+    private static String LOGIN_JSP="/user-login.jsp";
     private ReservationDAO reservationDao;
+    private VehicleDAO vehicleDAO;
+
     public ReservationControllerServlet() throws ServletException {
         super();
 
         // create our student db util ... and pass in the conn pool / datasource
         try {
             reservationDao = new ReservationDAO();
+            vehicleDAO = new VehicleDAO();
+
         }
         catch (Exception exc) {
             throw new ServletException(exc);
@@ -36,17 +41,24 @@ public class ReservationControllerServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //inserisco i valori nel middleware DAO
-
+        String v=request.getParameter("vehicleId");
         //String action = request.getParameter("action");
-        if(request.getParameter("action")!=null && request.getParameter("action").equalsIgnoreCase("edit")){
-            String action = request.getParameter("action");
-            editReservation(request,response);
+        if(request.getSession().getAttribute("user")!=null) {
+            if (request.getParameter("action") != null && request.getParameter("action").equalsIgnoreCase("edit")) {
+                String action = request.getParameter("action");
+                editReservation(request, response);
 
-        }else insertReservation(request, response);
-        request.setAttribute("reservations", reservationDao.getAllReservations());
-        RequestDispatcher view = request.getRequestDispatcher(SHOWALL_JSP);
+            } else if (request.getParameter("action") != null && request.getParameter("action").equalsIgnoreCase("insert") && request.getParameter("vehicleId") != null) {
+                String action = request.getParameter("action");
+                insertReservation(request, response);
+            }
+            request.setAttribute("reservations", reservationDao.getAllReservations());
+            RequestDispatcher view = request.getRequestDispatcher(SHOWALL_JSP);
 
-        view.forward(request, response);
+            view.forward(request, response);
+        }else {
+            RequestDispatcher view = request.getRequestDispatcher(LOGIN_JSP);
+        }
 
 
         //inserisco i valori nella richiesta
@@ -60,63 +72,62 @@ public class ReservationControllerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String forward="";
         String action = request.getParameter("action");
-        if(action.equalsIgnoreCase("create")){
-            forward = REGISTER_JSP;
-            int vehicleId = Integer.parseInt(request.getParameter("vehicleId"));
-            request.setAttribute("vehicleId", vehicleId);
-            //reservationDao.saveReservation(vehicleId);
-            request.setAttribute("reservations", reservationDao.getAllReservations());
+        if(request.getSession().getAttribute("user")!=null) {
+            if (action.equalsIgnoreCase("create")) {
+                forward = REGISTER_JSP;
+                int vehicleId = Integer.parseInt(request.getParameter("vehicleId"));
+                request.setAttribute("vehicleId", vehicleId);
+                //reservationDao.saveReservation(vehicleId);
+                //request.setAttribute("reservations", reservationDao.getAllReservations());
 
-        }
-        if (action.equalsIgnoreCase("delete")){
-            forward = SHOWALL_JSP;
-            int reservationId = Integer.parseInt(request.getParameter("reservationId"));
-            reservationDao.deleteReservation(reservationId);
-            request.setAttribute("reservations", reservationDao.getAllReservations());
+            } else if (action.equalsIgnoreCase("delete")) {
+                forward = SHOWALL_JSP;
+                int reservationId = Integer.parseInt(request.getParameter("reservationId"));
+                reservationDao.deleteReservation(reservationId);
+                request.setAttribute("reservations", reservationDao.getAllReservations());
 
-        } else if (action.equalsIgnoreCase("edit")){
-            forward = EDIT_JSP;
-            int i=Integer.parseInt(request.getParameter("reservationId"));
-            //editUser(request, response);
-            request.setAttribute("reservationId", reservationDao.getReservation(i));
-        } else if (action.equalsIgnoreCase("showAll")){
-            forward = SHOWALL_JSP;
-            request.setAttribute("reservations", reservationDao.getAllReservations());
-        }else if (action.equalsIgnoreCase("getuser")){
-            forward = SHOWALL_JSP;
+            } else if (action.equalsIgnoreCase("edit")) {
+                forward = EDIT_JSP;
+                int i = Integer.parseInt(request.getParameter("reservationId"));
+                //editUser(request, response);
+                request.setAttribute("reservationId", reservationDao.getReservation(i));
+            } else if (action.equalsIgnoreCase("showAll")) {
+                forward = SHOWALL_JSP;
+                request.setAttribute("reservations", reservationDao.getAllReservations());
+            } else if (action.equalsIgnoreCase("getuser")) {
+                forward = SHOWALL_JSP;
 
-            int i=Integer.parseInt(request.getParameter("reservationId"));
-            User user = reservationDao.getUser(i);
-            response.setContentType("text/html;charset=UTF-8");
-            try (PrintWriter out = response.getWriter()) {
-                // reading the user input
-                out.append("<ul>");
-                out.append("<li>" + user.getUserName() + " " + user.getPhone()
-                        + "<br>Città:" + user.getCity()
-                        + "<br>Age:" + user.getPhone() + "</li>");
-                out.append("</ul>");
-                //request.setAttribute("reservations", reservationDao.getUser(i));
-                request.setAttribute("user", user);
+                int i = Integer.parseInt(request.getParameter("reservationId"));
+                User user = reservationDao.getUser(i);
+                response.setContentType("text/html;charset=UTF-8");
+                try (PrintWriter out = response.getWriter()) {
+                    // reading the user input
+                    out.append("<ul>");
+                    out.append("<li>" + user.getUserName() + " " + user.getPhone()
+                            + "<br>Città:" + user.getCity()
+                            + "<br>Age:" + user.getPhone() + "</li>");
+                    out.append("</ul>");
+                    //request.setAttribute("reservations", reservationDao.getUser(i));
+                    request.setAttribute("user", user);
+                }
+
+            } else if (action.equalsIgnoreCase("getvehicle")) {
+
+                int i = Integer.parseInt(request.getParameter("reservationId"));
+                Vehicle vehicle = reservationDao.getVehicle(i);
+                response.setContentType("text/html;charset=UTF-8");
+                try (PrintWriter out = response.getWriter()) {
+                    // reading the user input
+                    out.append("<ul>");
+                    out.append("<li>" + vehicle.getModel() + " " + vehicle.getBrand()
+                            + "<br>Targa:" + vehicle.getPlate()
+                            + "<br>Data di Immatricolazione:" + vehicle.getImmdate() + "</li>");
+                    out.append("</ul>");
+                    //request.setAttribute("reservations", reservationDao.getUser(i));
+                }
             }
+        }else forward=LOGIN_JSP;
 
-        }else if (action.equalsIgnoreCase("getvehicle")){
-
-            int i=Integer.parseInt(request.getParameter("reservationId"));
-            Vehicle vehicle = reservationDao.getVehicle(i);
-            response.setContentType("text/html;charset=UTF-8");
-            try (PrintWriter out = response.getWriter()) {
-                // reading the user input
-                out.append("<ul>");
-                out.append("<li>" + vehicle.getModel() + " " + vehicle.getBrand()
-                        + "<br>Targa:" + vehicle.getPlate()
-                        + "<br>Data di Immatricolazione:" + vehicle.getImmdate() + "</li>");
-                out.append("</ul>");
-                //request.setAttribute("reservations", reservationDao.getUser(i));
-            }
-        } else {
-            forward = SHOWALL_JSP;
-            request.setAttribute("reservations", reservationDao.getAllReservations());
-        }
 
         RequestDispatcher view = request.getRequestDispatcher(forward);
         view.forward(request, response);
@@ -130,10 +141,14 @@ public class ReservationControllerServlet extends HttpServlet {
         int userId= Integer.parseInt(request.getParameter("userId"));
         int vehicleId= Integer.parseInt(request.getParameter("vehicleId"));
         int id = Integer.parseInt(request.getParameter("reservationId"));
-        User user = reservationDao.getUser(userId);
-        Vehicle vehicle= reservationDao.getVehicle(vehicleId);
-        //creo l'entità reservation
+
+
         Reservation reservation = new Reservation();
+
+        User user = reservationDao.getUser(userId);
+        Vehicle vehicle= vehicleDAO.getVehicle(vehicleId);
+        //creo l'entità reservation
+        //Reservation reservation = new Reservation();
         reservation.setId(id);
         reservation.setDataInizio(dataInizio);
         reservation.setDataFine(dataFine);
@@ -150,16 +165,21 @@ public class ReservationControllerServlet extends HttpServlet {
 
         String dataInizio = request.getParameter("dataInizio");
         String dataFine = request.getParameter("dataFine");
-        int userId= Integer.parseInt(request.getParameter("userId"));
+        User user = (User) request.getSession().getAttribute("user");
+        //String userId=(String) request.getSession().getAttribute("id");
+        String v=request.getParameter("vehicleId");
         int vehicleId= Integer.parseInt(request.getParameter("vehicleId"));
-        User user = reservationDao.getUser(userId);
-        Vehicle vehicle= reservationDao.getVehicle(vehicleId);
-        //creo l'entità reservation
+        //User user = reservationDao.getUser(userId);
+        Vehicle vehicle= vehicleDAO.getVehicle(vehicleId);;
+        //creo l'entità reservations
         Reservation reservation = new Reservation();
         reservation.setDataInizio(dataInizio);
         reservation.setDataFine(dataFine);
         reservation.setUser(user);
+
+
         reservation.setVehicle(vehicle);
+        user.setReservation(reservation);
         reservationDao.saveReservation(reservation);
 
 
