@@ -27,6 +27,11 @@ public class User implements Serializable {
 
 
 
+    @Column(name="role", nullable = true)
+    private String role;
+
+
+
     @OneToOne
     @JoinColumn(name="ReservationId")
     private Reservation reservation;
@@ -90,6 +95,13 @@ public class User implements Serializable {
 
     public void setReservation(Reservation reservation) {
         this.reservation = reservation;
+    }
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
 

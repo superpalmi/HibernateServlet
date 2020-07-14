@@ -1,6 +1,7 @@
 package com.palmieri.hibernate.controller;
 
 import com.palmieri.hibernate.dao.ReservationDAO;
+import com.palmieri.hibernate.dao.UserDAO;
 import com.palmieri.hibernate.dao.VehicleDAO;
 import com.palmieri.hibernate.model.Reservation;
 import com.palmieri.hibernate.model.User;
@@ -24,6 +25,7 @@ public class ReservationControllerServlet extends HttpServlet {
     private static String LOGIN_JSP="/user-login.jsp";
     private ReservationDAO reservationDao;
     private VehicleDAO vehicleDAO;
+    private UserDAO userDAO;
 
     public ReservationControllerServlet() throws ServletException {
         super();
@@ -32,6 +34,7 @@ public class ReservationControllerServlet extends HttpServlet {
         try {
             reservationDao = new ReservationDAO();
             vehicleDAO = new VehicleDAO();
+            userDAO=new UserDAO();
 
         }
         catch (Exception exc) {
@@ -43,14 +46,19 @@ public class ReservationControllerServlet extends HttpServlet {
         //inserisco i valori nel middleware DAO
         String v=request.getParameter("vehicleId");
         //String action = request.getParameter("action");
-        if(request.getSession().getAttribute("user")!=null) {
+        User user = (User) request.getSession().getAttribute("user");
+        if(user!=null) {
             if (request.getParameter("action") != null && request.getParameter("action").equalsIgnoreCase("edit")) {
                 String action = request.getParameter("action");
                 editReservation(request, response);
 
-            } else if (request.getParameter("action") != null && request.getParameter("action").equalsIgnoreCase("insert") && request.getParameter("vehicleId") != null) {
-                String action = request.getParameter("action");
-                insertReservation(request, response);
+            } else if (request.getParameter("action") != null && request.getParameter("action").equalsIgnoreCase("insert") && request.getParameter("vehicleId") != null ) {
+                if(user.getReservation()==null) {
+                    String action = request.getParameter("action");
+                    insertReservation(request, response);
+                }else try (PrintWriter out = response.getWriter()) {
+                    out.append("puoi prenotare solo un veicolo per volta");
+                }
             }
             request.setAttribute("reservations", reservationDao.getAllReservations());
             RequestDispatcher view = request.getRequestDispatcher(SHOWALL_JSP);
@@ -138,22 +146,23 @@ public class ReservationControllerServlet extends HttpServlet {
     private void editReservation(HttpServletRequest request, HttpServletResponse response) {
         String dataInizio = request.getParameter("dataInizio");
         String dataFine = request.getParameter("dataFine");
-        int userId= Integer.parseInt(request.getParameter("userId"));
-        int vehicleId= Integer.parseInt(request.getParameter("vehicleId"));
+        //int userId= Integer.parseInt(request.getParameter("userId"));
+        //int vehicleId= Integer.parseInt(request.getParameter("vehicleId"));
         int id = Integer.parseInt(request.getParameter("reservationId"));
+        Reservation old = reservationDao.getReservation(id);
 
 
         Reservation reservation = new Reservation();
 
-        User user = reservationDao.getUser(userId);
-        Vehicle vehicle= vehicleDAO.getVehicle(vehicleId);
+       // User user = reservationDao.getUser(userId);
+        //Vehicle vehicle= vehicleDAO.getVehicle(vehicleId);
         //creo l'entità reservation
         //Reservation reservation = new Reservation();
         reservation.setId(id);
         reservation.setDataInizio(dataInizio);
         reservation.setDataFine(dataFine);
-        reservation.setUser(user);
-        reservation.setVehicle(vehicle);
+        reservation.setUser(old.getUser());
+        reservation.setVehicle(old.getVehicle());
         reservationDao.updateReservation(reservation);
 
 
@@ -166,21 +175,25 @@ public class ReservationControllerServlet extends HttpServlet {
         String dataInizio = request.getParameter("dataInizio");
         String dataFine = request.getParameter("dataFine");
         User user = (User) request.getSession().getAttribute("user");
-        //String userId=(String) request.getSession().getAttribute("id");
-        String v=request.getParameter("vehicleId");
-        int vehicleId= Integer.parseInt(request.getParameter("vehicleId"));
-        //User user = reservationDao.getUser(userId);
-        Vehicle vehicle= vehicleDAO.getVehicle(vehicleId);;
-        //creo l'entità reservations
-        Reservation reservation = new Reservation();
-        reservation.setDataInizio(dataInizio);
-        reservation.setDataFine(dataFine);
-        reservation.setUser(user);
+
+            //String userId=(String) request.getSession().getAttribute("id");
+            String v = request.getParameter("vehicleId");
+            int vehicleId = Integer.parseInt(request.getParameter("vehicleId"));
+            //User user = reservationDao.getUser(userId);
+            Vehicle vehicle = vehicleDAO.getVehicle(vehicleId);
+            ;
+            //creo l'entità reservations
+            Reservation reservation = new Reservation();
+            reservation.setDataInizio(dataInizio);
+            reservation.setDataFine(dataFine);
+            reservation.setUser(user);
 
 
-        reservation.setVehicle(vehicle);
-        user.setReservation(reservation);
-        reservationDao.saveReservation(reservation);
+            reservation.setVehicle(vehicle);
+            user.setReservation(reservation);
+            userDAO.updateUser(user);
+            reservationDao.saveReservation(reservation);
+
 
 
 

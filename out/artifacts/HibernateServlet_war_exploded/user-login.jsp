@@ -8,33 +8,48 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+
     <title> Login </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
 </head>
 <body>
+<div class="container">
 <h1> Login Utente </h1>
 <br/>
-<form action="<%=request.getContextPath()%>/LoginControllerServlet" method="post">
-    <table cellpadding="3pt">
-        <tr>
-            <td>UserName :</td>
-            <td><input type="text" name="username" size="30" /></td>
-        </tr>
-        <tr>
-            <td>Password :</td>
-            <td><input type="password" name="password" size="30" /></td>
-        </tr>
+    <div class="row">
+        <form action="<%=request.getContextPath()%>/LoginControllerServlet" method="post" class="form-group">
+                <div class="table-responsive">
+                 <table class="table" cellpadding="3pt">
+                     <tr>
+                         <td>UserName :</td>
+                         <td><input type="text" name="username" size="30" /></td>
+                     </tr>
+                        <tr>
+                         <td>Password :</td>
+                        <td><input type="password" name="password" size="30" /></td>
+                     </tr>
 
 
-    </table>
-    <p />
-    <input type="submit" value="Login" />
-</form>
+                </table>
+                </div>
+
+             <input type="submit" value="Login"  class="btn btn-primary"/>
+        </form>
+    </div>
 
 
 
 
 
-<p><a href="/index.jsp">torna alla home</a></p>
+<p><a href="/index.jsp" class="btn btn-link" role="button">torna alla home</a></p>
+
+</div>
 
 
 </body>

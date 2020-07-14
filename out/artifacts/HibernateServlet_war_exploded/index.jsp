@@ -8,25 +8,32 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <title>Benvenuto</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
   </head>
   <body>
-  <h1> Benvenuto </h1>
-  <br/>
-  <a href="UserControllerServlet?action=showAll"> Guarda la lista degli Utenti </a>
-  <br/>
-  <a href="vehicle-register.jsp"> Registra un nuovo Veicolo</a>
-  <br/>
-  <a href="VehicleControllerServlet?action=showAll"> Guarda la lista dei Veicoli e prenotane uno</a>
-  <br/>
-  <a href="ReservationControllerServlet?action=showAll">Guarda La lista delle prenotazioni</a>
-  <br/>
+  <div class="container">
+    <h1> Benvenuto </h1>
+    <br/>
 
-  <a href="LogoutControllerServlet">Effettua il Log Out</a>
-  <br/>
+    <a href="UserControllerServlet?action=showAll" class="btn btn-primary" > Lista Utenti </a>
+    <br/>
+    <a href="vehicle-register.jsp" class="btn btn-primary" > Registra Veicolo</a>
+    <br/>
+    <a href="VehicleControllerServlet?action=showAll" class="btn btn-primary" > Lista Veicoli</a>
+    <br/>
+    <a href="ReservationControllerServlet?action=showAll" class="btn btn-primary" >Prenotazioni</a>
+    <br/>
 
+
+    <a href="LogoutControllerServlet" class="btn btn-secondary"  > Log Out</a>
+    <br/>
+  </div>
 
   </body>
 </html>

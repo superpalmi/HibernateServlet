@@ -9,6 +9,13 @@
 <html>
 <head>
     <title> Prenotazione </title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
 <body>
 
@@ -17,10 +24,6 @@
 <form action="<%=request.getContextPath()%>/ReservationControllerServlet?action=edit&reservationId=<%=request.getParameter("reservationId")%>" method="post">
     <table cellpadding="3pt">
         <tr>
-            <td>User Id :</td>
-            <td><input type="text" name="userId" size="30" /></td>
-        </tr>
-        <tr>
             <td>Data di inizio</td>
             <td><input type="text" name="dataInizio" size="30" /></td>
         </tr>
@@ -28,14 +31,7 @@
             <td>Data di fine :</td>
             <td><input type="text" name="dataFine" size="30" /></td>
         </tr>
-        <tr>
-            <td>Phone :</td>
-            <td><input type="text" name="phone" size="30" /></td>
-        </tr>
-        <tr>
-            <td>City :</td>
-            <td><input type="text" name="city" size="30" /></td>
-        </tr>
+
     </table>
     <p />
     <input type="submit" value="Register" />

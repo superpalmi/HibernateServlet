@@ -42,7 +42,7 @@ public class UserDAO {
         User user=null;
         try (Session session = HibernateConf.getSessionFactory().openSession()) {
             transaction=session.beginTransaction();
-            user=(User) session.createQuery("from User u where u.userName =:username").setParameter("username", username);
+            user=(User) session.createQuery("from User u where u.userName =:username").setParameter("username", username).uniqueResult();
             if (user != null && user.getPassword1().equals(password)) {
                 return true;
             }

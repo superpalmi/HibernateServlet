@@ -66,9 +66,9 @@ public class UserControllerServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String forward="";
-
+        User user = (User) request.getSession().getAttribute("user");
         String action = request.getParameter("action");
-        if(request.getSession().getAttribute("user")!=null) {
+        if(user!=null) {
             if (action != null) {
                 if (action.equalsIgnoreCase("delete")) {
                     forward = SHOWALL_JSP;
@@ -108,6 +108,7 @@ public class UserControllerServlet extends HttpServlet {
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
         String city = request.getParameter("city");
+        String role = request.getParameter("role");
         int id = Integer.parseInt(request.getParameter("userId"));
 
         //creo l'entità utente con i valori
@@ -118,6 +119,7 @@ public class UserControllerServlet extends HttpServlet {
         user.setEmail(email);
         user.setPhone(phone);
         user.setCity(city);
+        user.setRole(role);
 
 
         //passo al middleware DAO per la mappatura in hibernate
@@ -132,16 +134,18 @@ public class UserControllerServlet extends HttpServlet {
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
         String city = request.getParameter("city");
+        String role = request.getParameter("role");
         //boolean auth = request.getParameter("auth");
         //creo l'entità utente con i valori
         User user = new User();
-        Reservation reservation=new Reservation();
+        //Reservation reservation=new Reservation();
         user.setUserName(userName);
         user.setPassword1(password);
         user.setEmail(email);
         user.setPhone(phone);
         user.setCity(city);
-        user.setReservation(reservation);
+        user.setRole(role);
+        //user.setReservation(reservation);
         //passo al middleware DAO per la mappatura in hibernate
         userDao.saveUser(user);
 
