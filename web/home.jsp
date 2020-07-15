@@ -21,7 +21,7 @@
     <div class="container-md">
         <h1> Gestione Prenotazioni</h1>
 
-        <a href="user-login.jsp" class="btn btn-primary" > Fai il Login </a>
+        <a href="user-login.jsp" class="btn btn-primary" > Login </a>
         <a href="user-register.jsp"  class="btn btn-primary" > Registrati</a>
     </div>
 </body>

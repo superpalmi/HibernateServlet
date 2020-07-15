@@ -26,7 +26,7 @@ public class LoginDAO {
         User user = null;
         try (org.hibernate.Session session = HibernateConf.getSessionFactory().openSession()){
             transaction= session.beginTransaction();
-            user = session.createQuery("from User where userName =:userName", User.class).setParameter("userName", userName).getSingleResult();
+            user = session.createQuery("from User where userName =:userName", User.class).setParameter("userName", userName).uniqueResult();
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {

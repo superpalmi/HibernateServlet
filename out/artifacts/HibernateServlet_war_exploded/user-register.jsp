@@ -18,6 +18,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
 <body>
+<div class="row">
+    <div class="col">
 <h1> Registra Utente </h1>
 <br/>
 <form action="<%=request.getContextPath()%>/UserControllerServlet" method="post">
@@ -53,17 +55,19 @@
             <td><input type="text" name="role" size="30" /></td>
         </tr>
     </table>
+        <input type="submit" value="Register" class="btn btn-primary" />
     </div>
-    <p />
-    <input type="submit" value="Register" />
+
 </form>
+    </div>
+</div>
 
 
 
 
 
 
-<p><a href="/index.jsp" class="btn btn-primary">torna alla home</a></p>
+<a href="/home.jsp" class="btn btn-primary">Home</a>
 
 
 

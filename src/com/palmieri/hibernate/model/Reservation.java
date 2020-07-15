@@ -16,7 +16,7 @@ public class Reservation {
     @Column(name="dataFine", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date dataFine;
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne()
     @JoinColumn(name="UserId")
     private User user;
     @OneToOne()

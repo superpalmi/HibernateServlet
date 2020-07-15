@@ -4,8 +4,7 @@
   Date: 13/07/2020
   Time: 11:00
   To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+--%><%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title> Prenotazione </title>
@@ -17,29 +16,35 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container">
-<h1> Registra Prenotazione</h1>
-<br/>
-<form action="<%=request.getContextPath()%>/ReservationControllerServlet?action=insert&vehicleId=<%=request.getParameter("vehicleId")%>" method="post">
-
-    <table cellpadding="3pt" class="table">
-        <tr>
-            <td>Data di inizio</td>
-            <td><input type="date" name="dataInizio" size="30" /></td>
-        </tr>
-        <tr>
-            <td>Data di fine :</td>
-            <td><input type="date" name="dataFine" size="30" /></td>
-        </tr>
-
-    </table>
+<div class="row">
+    <div class="col">
+        <div class="container">
+            <h1> Registra Prenotazione</h1>
+            <br/>
+            <form action="<%=request.getContextPath()%>/ReservationControllerServlet?action=insert&vehicleId=<%=request.getParameter("vehicleId")%>" method="post">
+                <div class="table-responsive">
+                    <table cellpadding="3pt" class="table">
+                        <tr>
+                            <td>Data di inizio</td>
+                            <td>
+                                <input type="date" name="dataInizio" size="30" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Data di fine :</td>
+                            <td>
+                                <input type="date" name="dataFine" size="30" />
+                            </td>
+                        </tr>
+                    </table>
+                    <input type="submit" value="Register" class="btn btn-primary"/>
+                </div>
+            </form>
+            <p>
+                <a href="/index.jsp" class="btn btn-primary">Dashboard</a>
+            </p>
+        </div>
     </div>
-    <p />
-    <input type="submit" value="Register" class="btn btn-primary"/>
-</form>
-<p><a href="/index.jsp" class="btn btn-primary">torna alla home</a></p>
 </div>
-
-
 </body>
 </html>

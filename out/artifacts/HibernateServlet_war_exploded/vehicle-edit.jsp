@@ -16,6 +16,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
 <body>
+<div class="row">
+    <div class="col">
 Modifica Veicolo
 
 <br/>
@@ -58,7 +60,9 @@ Modifica Veicolo
     <input type="submit" value="Vehicle Register" />
 </form>
 <p>
-    <a href="/index.jsp" class="btn btn-primary">torna alla home</a>
+    <a href="/index.jsp" class="btn btn-primary">Dashboard</a>
 </p>
+    </div>
+</div>
 </body>
 </html>

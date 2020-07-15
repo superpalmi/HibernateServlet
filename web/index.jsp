@@ -17,21 +17,38 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
   </head>
   <body>
+  <div class="row">
+    <div class="col">
   <div class="container pt-3">
     <h1> Benvenuto </h1>
     <br/>
-    <div class="btn-group">
+    <div class="row">
+      <div class="col">
       <a href="UserControllerServlet?action=showAll" class="btn btn-primary" > Lista Utenti </a>
-
-      <a href="vehicle-register.jsp" class="btn btn-primary" > Registra Veicolo</a>
-
-      <a href="VehicleControllerServlet?action=showAll" class="btn btn-primary" > Lista Veicoli</a>
-
-      <a href="ReservationControllerServlet?action=showAll" class="btn btn-primary" >Prenotazioni</a>
-
     </div>
-    <a href="LogoutControllerServlet" class="btn btn-secondary"  > Log Out</a>
-  </div>
+    </div>
 
+    <div class="row">
+      <div class="col">
+      <a href="vehicle-register.jsp" class="btn btn-primary" > Registra Veicolo</a>
+    </div>
+    </div>
+    <div class="row">
+      <div class="col">
+      <a href="VehicleControllerServlet?action=showAll" class="btn btn-primary" > Lista Veicoli</a>
+    </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+      <a href="ReservationControllerServlet?action=showAll" class="btn btn-primary" >Prenotazioni</a>
+    </div>
+    </div>
+
+
+     <a href="LogoutControllerServlet" class="btn btn-secondary"  > Log Out</a>
+  </div>
+    </div>
+  </div>
   </body>
 </html>

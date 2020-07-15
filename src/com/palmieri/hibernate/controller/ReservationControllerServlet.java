@@ -60,7 +60,12 @@ public class ReservationControllerServlet extends HttpServlet {
                     String action = request.getParameter("action");
                     insertReservation(request, response);
                 }else try (PrintWriter out = response.getWriter()) {
-                    out.append("puoi prenotare solo un veicolo per volta");
+
+                    String someMessage = "Error !";
+
+                    out.print("<html><head>");
+                    out.print("<script type=\"text/javascript\">alert(\"puoi prenotare solo un veicolo per volta\");</script>");
+                    out.print("</head><body></body></html>");
                 }
             }
             request.setAttribute("reservations", reservationDao.getAllReservations());

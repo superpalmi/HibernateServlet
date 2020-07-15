@@ -19,6 +19,9 @@
 
 </head>
 <body>
+
+<div class="row">
+    <div class="col">
 <div class="container">
 <h1> Login Utente </h1>
 <br/>
@@ -37,18 +40,16 @@
 
 
                 </table>
+                    <input type="submit" value="Login"  class="btn btn-primary"/>
                 </div>
 
-             <input type="submit" value="Login"  class="btn btn-primary"/>
+
         </form>
+
     </div>
-
-
-
-
-
-<p><a href="/index.jsp" class="btn btn-primary" role="button">torna alla home</a></p>
-
+    <a href="/home.jsp" class="btn btn-secondary" role="button">Home</a>
+</div>
+    </div>
 </div>
 
 

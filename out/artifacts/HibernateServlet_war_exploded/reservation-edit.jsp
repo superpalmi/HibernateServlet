@@ -16,6 +16,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
 <body>
+<div class="row">
+    <div class="col">
 <h1> Registra Prenotazione</h1>
 <br/>
 <form action="<%=request.getContextPath()%>/ReservationControllerServlet?action=edit&reservationId=<%=request.getParameter("reservationId")%>" method="post">
@@ -34,12 +36,18 @@
                 </td>
             </tr>
         </table>
+        <input type="submit" value="Register" />
     </div>
-    <p />
-    <input type="submit" value="Register" />
+
+
 </form>
-<p>
-    <a href="/index.jsp" class="btn btn-primary">torna alla home</a>
-</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <a href="/index.jsp" class="btn btn-primary">Dashboard</a>
+    </div>
+</div>
+
 </body>
 </html>

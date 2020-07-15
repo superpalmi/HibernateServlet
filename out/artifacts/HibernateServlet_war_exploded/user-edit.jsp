@@ -18,10 +18,13 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-Modifica Utente
-<br/>
-<form action="<%=request.getContextPath()%>/UserControllerServlet?action=edit&userId=<%=request.getParameter("userId")%>" method="post">
 
+<div class="row">
+    <div class="col">
+        Modifica Utente
+        <br/>
+<form action="<%=request.getContextPath()%>/UserControllerServlet?action=edit&userId=<%=request.getParameter("userId")%>" method="post">
+    <div class="table-responsive">
     <table cellpadding="3pt" class="table">
         <tr>
             <td>User Name :</td>
@@ -53,14 +56,17 @@ Modifica Utente
             <td><input type="text" name="role" size="30" /></td>
         </tr>
     </table>
-    <p />
-    <input type="submit" value="Register" />
+    <input type="submit" value="Register" class="btn btn-primary" />
+    </div>
+
 </form>
+    </div>
+</div>
 
 
 
 
-<p><a href="/index.jsp">torna alla home</a></p>
+<p><a href="/index.jsp">Dashboard</a></p>
 
 
 

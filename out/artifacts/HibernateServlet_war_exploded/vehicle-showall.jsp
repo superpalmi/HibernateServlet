@@ -12,57 +12,67 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="table-responsive">
-<table border=1 class="table">
-    <thead>
-    <tr>
-        <th>Vehicle Id</th>
-        <th>Brand</th>
-        <th>Model</th>
-        <th>Plate</th>
-        <th colspan=2>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <c:forEach items="${vehicles}" var="vehicle">
-        <tr>
-            <td>
-                <c:out value="${vehicle.id}" />
-            </td>
-            <td>
-                <c:out value="${vehicle.brand}" />
-            </td>
-            <td>
-                <c:out value="${vehicle.model}" />
-            </td>
-            <td>
-                <c:out value="${vehicle.plate}" />
-            </td>
-            <td>
-                <a href="ReservationControllerServlet?action=create&vehicleId=
-											<c:out value="${vehicle.id}"/>">Prenota
-                </a>
-            </td>
-            <td>
-                <a href="VehicleControllerServlet?action=edit&vehicleId=
-											<c:out value="${vehicle.id}"/>">Update
-                </a>
-            </td>
-            <td>
-                <a href="VehicleControllerServlet?action=delete&vehicleId=
-											<c:out value="${vehicle.id}"/>">Delete
-                </a>
-            </td>
-        </tr>
-    </c:forEach>
-    </tbody>
-</table>
+<div class="row">
+    <div class="col">
+        <div class="table-responsive">
+            <table border=1 class="table">
+                <thead>
+                <tr>
+                    <th>Vehicle Id</th>
+                    <th>Brand</th>
+                    <th>Model</th>
+                    <th>Plate</th>
+                    <th colspan=2>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${vehicles}" var="vehicle">
+                    <tr>
+                        <td>
+                            <c:out value="${vehicle.id}" />
+                        </td>
+                        <td>
+                            <c:out value="${vehicle.brand}" />
+                        </td>
+                        <td>
+                            <c:out value="${vehicle.model}" />
+                        </td>
+                        <td>
+                            <c:out value="${vehicle.plate}" />
+                        </td>
+                        <td>
+                            <a href="ReservationControllerServlet?action=create&vehicleId=
+
+														<c:out value="${vehicle.id}"/>">Prenota
+
+                            </a>
+                        </td>
+                        <td>
+                            <a href="VehicleControllerServlet?action=edit&vehicleId=
+
+														<c:out value="${vehicle.id}"/>">Update
+
+                            </a>
+                        </td>
+                        <td>
+                            <a href="VehicleControllerServlet?action=delete&vehicleId=
+
+														<c:out value="${vehicle.id}"/>">Delete
+
+                            </a>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+        <p>
+            <a href="/vehicle-register.jsp" class="btn btn-primary">Add vehicle</a>
+        </p>
+        <p>
+            <a href="/index.jsp" class="btn btn-primary">Dashboard</a>
+        </p>
+    </div>
 </div>
-<p>
-    <a href="/vehicle-register.jsp" class="btn btn-primary">Add vehicle</a>
-</p>
-<p>
-    <a href="/index.jsp" class="btn btn-primary">torna alla home</a>
-</p>
 </body>
 </html>

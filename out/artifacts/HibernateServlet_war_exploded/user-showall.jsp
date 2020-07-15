@@ -15,6 +15,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
 <body>
+<div class="row">
+    <div class="col">
 <div class="table-responsive">
 <table border=1 class="table">
     <thead>
@@ -41,6 +43,8 @@
 </table>
 </div>
 
-<p><a href="/index.jsp" class="btn btn-primary">torna alla home</a></p>
+<p><a href="/index.jsp" class="btn btn-primary">Dashboard</a></p>
+    </div>
+</div>
 </body>
 </html>

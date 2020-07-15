@@ -8,7 +8,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet("/LoginControllerServlet")
 public class LoginControllerServlet extends HttpServlet {
@@ -24,9 +26,15 @@ public class LoginControllerServlet extends HttpServlet {
             request.getSession().setAttribute("user", user);
             request.getSession().setAttribute("id", user.getId());
             response.sendRedirect("index.jsp");
+
         }
-        else{
-            response.sendRedirect("home.jsp");
+        else
+        {
+            PrintWriter out = response.getWriter();
+            out.println("<script type=\"text/javascript\">");
+            out.println("alert('User o password non corrette');");
+            out.println("location='user-login.jsp';");
+            out.println("</script>");
         }
 
 

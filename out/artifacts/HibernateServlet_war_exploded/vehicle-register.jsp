@@ -18,8 +18,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
 <body>
+<div class="row">
+    <div class="col">
 <h1> Registra il veicolo </h1>
 <br/>
+
 
 <form action="<%=request.getContextPath()%>/VehicleControllerServlet" method="post">
     <div class="table-responsive">
@@ -47,13 +50,14 @@
         </tr>
 
     </table>
+        <input type="submit" value="Vehicle Register" class="btn btn-primary"/>
     </div>
-    <p />
-    <input type="submit" value="Vehicle Register" class="btn btn-primary"/>
+
 </form>
 
-<p><a href="/index.jsp" class="btn btn-primary">torna alla home</a></p>
+<p><a href="/index.jsp" class="btn btn-primary">Dashboard</a></p>
 
-
+    </div>
+</div>
 </body>
 </html>
