@@ -87,8 +87,9 @@ public class ReservationControllerServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String forward="";
+        User user = (User) request.getSession().getAttribute("user");
         String action = request.getParameter("action");
-        if(request.getSession().getAttribute("user")!=null) {
+        if(user!=null) {
             if (action.equalsIgnoreCase("create")) {
                 forward = REGISTER_JSP;
                 int vehicleId = Integer.parseInt(request.getParameter("vehicleId"));
@@ -108,13 +109,21 @@ public class ReservationControllerServlet extends HttpServlet {
                 //editUser(request, response);
                 request.setAttribute("reservationId", reservationDao.getReservation(i));
             } else if (action.equalsIgnoreCase("showAll")) {
-                forward = SHOWALL_JSP;
-                request.setAttribute("reservations", reservationDao.getAllReservations());
+                if(user.getRole().equalsIgnoreCase("superuser")){
+                    forward = SHOWALL_JSP;
+                    request.setAttribute("reservations", reservationDao.getAllReservations());
+                }else {
+                    PrintWriter out = response.getWriter();
+                    out.println("<script type=\"text/javascript\">");
+                    out.println("alert('Utente non autorizzato');");
+                    out.println("location='user-login.jsp';");
+                    out.println("</script>");
+                }
             } else if (action.equalsIgnoreCase("getuser")) {
                 forward = SHOWALL_JSP;
 
                 int i = Integer.parseInt(request.getParameter("reservationId"));
-                User user = reservationDao.getUser(i);
+                User u = reservationDao.getUser(i);
                 response.setContentType("text/html;charset=UTF-8");
                 try (PrintWriter out = response.getWriter()) {
                     // reading the user input

@@ -16,8 +16,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="row">
-    <div class="col">
+<div class="row justify-content-center">
+    <div class="col-auto">
 Modifica Veicolo
 
 <br/>

@@ -1,6 +1,7 @@
 package com.palmieri.hibernate.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -19,6 +20,8 @@ public class UserControllerServlet extends HttpServlet {
     private static String EDIT_JSP = "/user-edit.jsp";
     private static String SHOWALL_JSP = "/user-showall.jsp?action=showAll";
     private static String REGISTER_JSP="/user-register.jsp";
+    private static String USERDETAIL_JSP="/user-detail.jsp";
+    private static String INDEX_JSP="/index.jsp";
 
     private static final long serialVersionUID = 1L;
     private UserDAO userDao;
@@ -82,22 +85,38 @@ public class UserControllerServlet extends HttpServlet {
                     //editUser(request, response);
                     request.setAttribute("userId", userDao.getUser(i));
                 } else if (action.equalsIgnoreCase("showAll")) {
-                    forward = SHOWALL_JSP;
-                    request.setAttribute("users", userDao.getAllUsers());
-                } else {
-                    forward = SHOWALL_JSP;
-                    request.setAttribute("users", userDao.getAllUsers());
-                }
+
+                    if(user.getRole().equalsIgnoreCase("superuser")){
+                        forward = SHOWALL_JSP;
+                        request.setAttribute("users", userDao.getAllUsers());
+                    }else {
+                        PrintWriter out = response.getWriter();
+                        out.println("<script type=\"text/javascript\">");
+                        out.println("alert('Utente non autorizzato');");
+                        out.println("location='user-login.jsp';");
+                        out.println("</script>");
+                        forward = INDEX_JSP;
+
+                    }
+
+                } else if(action.equalsIgnoreCase("showUser")){
+                    forward = USERDETAIL_JSP;
+                    request.setAttribute("user", user);
+                }else forward = INDEX_JSP;
 
                 RequestDispatcher view = request.getRequestDispatcher(forward);
                 view.forward(request, response);
             }
-        } else {
+        } else if(user==null) {
             forward=("user-login.jsp");
             RequestDispatcher view = request.getRequestDispatcher(forward);
             view.forward(request, response);
 
-        }
+        }else  forward = INDEX_JSP;
+
+        RequestDispatcher view = request.getRequestDispatcher(forward);
+        view.forward(request, response);
+
     }
 
 

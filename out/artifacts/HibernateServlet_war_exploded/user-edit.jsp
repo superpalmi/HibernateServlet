@@ -19,8 +19,8 @@
 </head>
 <body>
 
-<div class="row">
-    <div class="col">
+<div class="row justify-content-center">
+    <div class="col-auto">
         Modifica Utente
         <br/>
 <form action="<%=request.getContextPath()%>/UserControllerServlet?action=edit&userId=<%=request.getParameter("userId")%>" method="post">

@@ -19,9 +19,8 @@
 
 </head>
 <body>
-
-<div class="row">
-    <div class="col">
+<div class="row justify-content-center">
+    <div class="col-auto">
 <div class="container">
 <h1> Login Utente </h1>
 <br/>

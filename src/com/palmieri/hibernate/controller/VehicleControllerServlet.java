@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet("/VehicleControllerServlet")
 public class VehicleControllerServlet extends HttpServlet {
@@ -36,26 +37,36 @@ public class VehicleControllerServlet extends HttpServlet {
         }
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        User user = (User) request.getSession().getAttribute("user");
         //inserisco i valori nel middleware DAO
+        //if(user.getRole().equalsIgnoreCase("superuser")) {
 
-        //String action = request.getParameter("action");
-        if(request.getSession().getAttribute("user")!=null) {
-            if (request.getParameter("action") != null && request.getParameter("action").equalsIgnoreCase("edit")) {
-                String action = request.getParameter("action");
-                editVehicle(request, response);
 
-            } else insertVehicle(request, response);
-            request.setAttribute("vehicles", vehicleDao.getAllVehicles());
-            RequestDispatcher view = request.getRequestDispatcher(SHOWALL_JSP);
+            //String action = request.getParameter("action");
+            if (user != null) {
+                if (request.getParameter("action") != null && request.getParameter("action").equalsIgnoreCase("edit")) {
+                    String action = request.getParameter("action");
+                    editVehicle(request, response);
 
-            view.forward(request, response);
-        }else{
-            RequestDispatcher view = request.getRequestDispatcher(LOGIN_JSP);
+                } else insertVehicle(request, response);
+                request.setAttribute("vehicles", vehicleDao.getAllVehicles());
+                RequestDispatcher view = request.getRequestDispatcher(SHOWALL_JSP);
 
-            view.forward(request, response);
-        }
+                view.forward(request, response);
+            } else {
+                RequestDispatcher view = request.getRequestDispatcher(LOGIN_JSP);
 
+                view.forward(request, response);
+            }
+
+       /* }else {
+            PrintWriter out = response.getWriter();
+            out.println("<script type=\"text/javascript\">");
+            out.println("alert('Utente non autorizzato');");
+            out.println("location='user-login.jsp';");
+            out.println("</script>");
+
+        }*/
 
 
 
@@ -69,6 +80,7 @@ public class VehicleControllerServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String forward="";
+        User user = (User) request.getSession().getAttribute("user");
         String action = request.getParameter("action");
         if(request.getSession().getAttribute("user")!=null) {
             if (action.equalsIgnoreCase("delete")) {
@@ -78,17 +90,31 @@ public class VehicleControllerServlet extends HttpServlet {
                 request.setAttribute("vehicles", vehicleDao.getAllVehicles());
 
             } else if (action.equalsIgnoreCase("edit")) {
-                forward = EDIT_JSP;
-                int i = Integer.parseInt(request.getParameter("vehicleId"));
-                //editUser(request, response);
-                request.setAttribute("vehicleId", vehicleDao.getVehicle(i));
-            } else if (action.equalsIgnoreCase("showAll")) {
+
+                if(user.getRole().equalsIgnoreCase("superuser")){
+                    forward = EDIT_JSP;
+                    int i = Integer.parseInt(request.getParameter("vehicleId"));
+                    //editUser(request, response);
+                    request.setAttribute("vehicleId", vehicleDao.getVehicle(i));
+                }else {
+                    PrintWriter out = response.getWriter();
+                    out.println("<script type=\"text/javascript\">");
+                    out.println("alert('Utente non autorizzato');");
+                    out.println("location='user-login.jsp';");
+                    out.println("</script>");
+                }
+
+
+
+            } else if(action.equalsIgnoreCase("showAll")){
                 forward = SHOWALL_JSP;
                 request.setAttribute("vehicles", vehicleDao.getAllVehicles());
-            } else {
-                forward = SHOWALL_JSP;
-                request.setAttribute("vehicles", vehicleDao.getAllVehicles());
+
             }
+
+
+
+
         }else forward = LOGIN_JSP;
 
         RequestDispatcher view = request.getRequestDispatcher(forward);
