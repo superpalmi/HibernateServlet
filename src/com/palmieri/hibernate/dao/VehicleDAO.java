@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import java.sql.Date;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,8 +91,7 @@ public class VehicleDAO {
 
             session.update(vehicle);
             trns.commit();
-            session.flush();
-            session.close();
+
 
         } catch (RuntimeException e) {
             e.printStackTrace();

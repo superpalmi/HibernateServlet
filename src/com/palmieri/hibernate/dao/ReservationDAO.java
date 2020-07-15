@@ -66,8 +66,9 @@ public class ReservationDAO {
         try(Session session = HibernateConf.getSessionFactory().openSession()) {
             trns = session.beginTransaction();
             Reservation reservation = (Reservation) session.load(Reservation.class, reservationId);
+
             session.delete(reservation);
-            session.getTransaction().commit();
+            trns.commit();
         } catch (RuntimeException e) {
             if (trns != null) {
                 trns.rollback();
@@ -87,6 +88,7 @@ public class ReservationDAO {
 
             //user=res.getUser();
             user = (User) session.createQuery("select User  from User join Reservation res on res.user.id=User.id WHERE "+ userId+"=res.user.id");
+            trns.commit();
         } catch (RuntimeException e) {
             if (trns != null) {
                 trns.rollback();
@@ -106,6 +108,7 @@ public class ReservationDAO {
             trns = session.beginTransaction();
             ///vehicle = res.getVehicle();
             vehicle = (Vehicle) session.createQuery(" from Vehicle join Reservation  on Reservation.vehicle.id=Vehicle.id where "+ vehicleId+"=Reservation .vehicle.id");
+            trns.commit();
         } catch (RuntimeException e) {
             if (trns != null) {
                 trns.rollback();

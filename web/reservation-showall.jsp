@@ -16,7 +16,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-<table border=1 >
+<div class="table-responsive">
+<table border=1 class="table">
     <thead>
     <tr>
         <th>Reservation Id</th>
@@ -36,11 +37,11 @@
             <td><c:out value="${reservation.id}" /></td>
             <td><c:out value="${reservation.user.id}" /></td>
             <td><c:out value="${reservation.vehicle.id}" /></td>
-            <td><c:out value="${reservation.dataInizio}" /></td>
-            <td><c:out value="${reservation.dataFine}" /></td>
+            <td><fmt:formatDate value="${reservation.dataInizio}" pattern="YYYY/MM/DD" /></td>
+            <td><fmt:formatDate value="${reservation.dataFine}" pattern="YYYY/MM/DD" /></td>
             <td><c:out value="${reservation.user.userName}" /></td>
             <td><c:out value="${reservation.vehicle.plate}" /></td>
-            <td><c:out value="${reservation.vehicle.plate}" /></td>
+
 
 
             <td><a href="ReservationControllerServlet?action=edit&reservationId=<c:out value="${reservation.id}"/>">Update</a></td>
@@ -53,10 +54,11 @@
     </c:forEach>
     </tbody>
 </table>
+</div>
 
 
 </body>
-<p><a href="/index.jsp">torna alla DashBoard</a></p>
+<p><a href="/index.jsp" class="btn btn-primary">Dashboard</a></p>
 
 
 </body>

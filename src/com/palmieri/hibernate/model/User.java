@@ -32,7 +32,7 @@ public class User implements Serializable {
 
 
 
-    @OneToOne
+    @OneToOne (cascade = {CascadeType.ALL})
     @JoinColumn(name="ReservationId")
     private Reservation reservation;
 

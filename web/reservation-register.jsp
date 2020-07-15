@@ -17,25 +17,28 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-
+<div class="container">
 <h1> Registra Prenotazione</h1>
 <br/>
 <form action="<%=request.getContextPath()%>/ReservationControllerServlet?action=insert&vehicleId=<%=request.getParameter("vehicleId")%>" method="post">
-    <table cellpadding="3pt">
+
+    <table cellpadding="3pt" class="table">
         <tr>
             <td>Data di inizio</td>
-            <td><input type="text" name="dataInizio" size="30" /></td>
+            <td><input type="date" name="dataInizio" size="30" /></td>
         </tr>
         <tr>
             <td>Data di fine :</td>
-            <td><input type="text" name="dataFine" size="30" /></td>
+            <td><input type="date" name="dataFine" size="30" /></td>
         </tr>
 
     </table>
+    </div>
     <p />
-    <input type="submit" value="Register" />
+    <input type="submit" value="Register" class="btn btn-primary"/>
 </form>
-<p><a href="/index.jsp">torna alla home</a></p>
+<p><a href="/index.jsp" class="btn btn-primary">torna alla home</a></p>
+</div>
 
 
 </body>

@@ -47,7 +47,7 @@
 
 
 
-<p><a href="/index.jsp" class="btn btn-link" role="button">torna alla home</a></p>
+<p><a href="/index.jsp" class="btn btn-primary" role="button">torna alla home</a></p>
 
 </div>
 

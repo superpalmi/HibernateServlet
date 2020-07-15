@@ -1,5 +1,7 @@
 package com.palmieri.hibernate.model;
 import javax.persistence.*;
+import java.util.Date;
+
 
 @Entity
 @Table (name = "reservations")
@@ -8,13 +10,16 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int Id;
     @Column(name="dataInizio", nullable = false)
-    private String dataInizio;
+
+    @Temporal(TemporalType.DATE)
+    private Date dataInizio;
     @Column(name="dataFine", nullable = false)
-    private String dataFine;
-    @OneToOne
+    @Temporal(TemporalType.DATE)
+    private Date dataFine;
+    @OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="UserId")
     private User user;
-    @OneToOne
+    @OneToOne()
     @JoinColumn(name="VehicleId")
     private Vehicle vehicle;
 
@@ -26,19 +31,19 @@ public class Reservation {
         Id = id;
     }
 
-    public String getDataInizio() {
+    public Date getDataInizio() {
         return dataInizio;
     }
 
-    public void setDataInizio(String dataInizio) {
+    public void setDataInizio(Date dataInizio) {
         this.dataInizio = dataInizio;
     }
 
-    public String getDataFine() {
+    public Date getDataFine() {
         return dataFine;
     }
 
-    public void setDataFine(String dataFine) {
+    public void setDataFine(Date dataFine) {
         this.dataFine = dataFine;
     }
 

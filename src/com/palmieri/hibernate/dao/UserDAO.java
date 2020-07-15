@@ -114,8 +114,7 @@ public class UserDAO {
 
             session.update(user);
             trns.commit();
-            session.flush();
-            session.close();
+
 
         } catch (RuntimeException e) {
             e.printStackTrace();

@@ -21,7 +21,8 @@
 Modifica Utente
 <br/>
 <form action="<%=request.getContextPath()%>/UserControllerServlet?action=edit&userId=<%=request.getParameter("userId")%>" method="post">
-    <table cellpadding="3pt">
+
+    <table cellpadding="3pt" class="table">
         <tr>
             <td>User Name :</td>
             <td><input type="text" name="userName" size="30" /></td>

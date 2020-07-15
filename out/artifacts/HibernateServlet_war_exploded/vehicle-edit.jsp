@@ -4,11 +4,9 @@
   Date: 09/07/2020
   Time: 09:14
   To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+--%><%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-
     <title> Edit </title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,42 +17,48 @@
 </head>
 <body>
 Modifica Veicolo
+
 <br/>
 <form action="<%=request.getContextPath()%>/VehicleControllerServlet?action=edit&vehicleId=<%=request.getParameter("vehicleId")%>" method="post">
-    <table cellpadding="3pt">
-    <tr>
-        <td>Marca :</td>
-        <td><input type="text" name="brand" size="30" /></td>
-    </tr>
-    <tr>
-        <td>Modello :</td>
-        <td><input type="text" name="model" size="30" /></td>
-    </tr>
-
-    <tr>
-        <td>Targa : </td>
-        <td><input type="text" name="plate" size="30" /></td>
-    </tr>
-    <tr>
-        <td>Data di immatricolazione :</td>
-        <td><input type="text" name="registrationDate" size="30" /></td>
-    </tr>
-    <tr>
-        <td>Tipologia :</td>
-        <td><input type="text" name="type" size="30" /></td>
-    </tr>
-
-    </table>
+    <div class="table-responsive">
+        <table cellpadding="3pt" class="table">
+            <tr>
+                <td>Marca :</td>
+                <td>
+                    <input type="text" name="brand" size="30" />
+                </td>
+            </tr>
+            <tr>
+                <td>Modello :</td>
+                <td>
+                    <input type="text" name="model" size="30" />
+                </td>
+            </tr>
+            <tr>
+                <td>Targa : </td>
+                <td>
+                    <input type="text" name="plate" size="30" />
+                </td>
+            </tr>
+            <tr>
+                <td>Data di immatricolazione :</td>
+                <td>
+                    <input type="text" name="registrationDate" size="30" />
+                </td>
+            </tr>
+            <tr>
+                <td>Tipologia :</td>
+                <td>
+                    <input type="text" name="type" size="30" />
+                </td>
+            </tr>
+        </table>
+    </div>
     <p />
     <input type="submit" value="Vehicle Register" />
 </form>
-
-
-<p><a href="/index.jsp">torna alla home</a></p>
-
-
-
-
-
+<p>
+    <a href="/index.jsp" class="btn btn-primary">torna alla home</a>
+</p>
 </body>
 </html>

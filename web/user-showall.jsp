@@ -15,7 +15,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-<table border=1 >
+<div class="table-responsive">
+<table border=1 class="table">
     <thead>
     <tr>
         <th>User Id</th>
@@ -38,7 +39,8 @@
     </c:forEach>
     </tbody>
 </table>
+</div>
 
-<p><a href="/index.jsp">torna alla home</a></p>
+<p><a href="/index.jsp" class="btn btn-primary">torna alla home</a></p>
 </body>
 </html>

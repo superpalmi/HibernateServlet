@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 @WebServlet("/ReservationControllerServlet")
 public class ReservationControllerServlet extends HttpServlet {
@@ -143,9 +146,27 @@ public class ReservationControllerServlet extends HttpServlet {
 
     }
 
-    private void editReservation(HttpServletRequest request, HttpServletResponse response) {
-        String dataInizio = request.getParameter("dataInizio");
-        String dataFine = request.getParameter("dataFine");
+    private void editReservation(HttpServletRequest request, HttpServletResponse response)  {
+
+
+            String StartTimeStr = request.getParameter("dataInizio");
+            String EndTimeStr = request.getParameter("dataFine");
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date dataInizio = null;
+        try {
+            dataInizio = dateFormat.parse(StartTimeStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Date dataFine = null;
+        try {
+            dataFine = dateFormat.parse(EndTimeStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         //int userId= Integer.parseInt(request.getParameter("userId"));
         //int vehicleId= Integer.parseInt(request.getParameter("vehicleId"));
         int id = Integer.parseInt(request.getParameter("reservationId"));
@@ -171,9 +192,24 @@ public class ReservationControllerServlet extends HttpServlet {
     }
 
     private void insertReservation(HttpServletRequest request, HttpServletResponse response) {
+        String StartTimeStr = request.getParameter("dataInizio");
+        String EndTimeStr = request.getParameter("dataFine");
 
-        String dataInizio = request.getParameter("dataInizio");
-        String dataFine = request.getParameter("dataFine");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date dataInizio= null;
+        try {
+            dataInizio = dateFormat.parse(StartTimeStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Date dataFine = null;
+        try {
+            dataFine = dateFormat.parse(EndTimeStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         User user = (User) request.getSession().getAttribute("user");
 
             //String userId=(String) request.getSession().getAttribute("id");

@@ -22,7 +22,8 @@
 <br/>
 
 <form action="<%=request.getContextPath()%>/VehicleControllerServlet" method="post">
-    <table cellpadding="3pt">
+    <div class="table-responsive">
+    <table cellpadding="3pt" class="table">
         <tr>
             <td>Marca :</td>
             <td><input type="text" name="brand" size="30" /></td>
@@ -46,11 +47,12 @@
         </tr>
 
     </table>
+    </div>
     <p />
-    <input type="submit" value="Vehicle Register" />
+    <input type="submit" value="Vehicle Register" class="btn btn-primary"/>
 </form>
 
-<p><a href="/index.jsp">torna alla home</a></p>
+<p><a href="/index.jsp" class="btn btn-primary">torna alla home</a></p>
 
 
 </body>
