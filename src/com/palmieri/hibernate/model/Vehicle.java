@@ -5,6 +5,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -18,7 +19,7 @@ public class Vehicle implements Serializable {
     @Column(name="model")
     private String model;
     @Column(name="immdate")
-    private String immdate;
+    private Date immdate;
     @Column(name="plate")
     private String plate;
     @Column(name="type")
@@ -52,11 +53,11 @@ public class Vehicle implements Serializable {
         this.model = model;
     }
 
-    public String getImmdate() {
+    public Date getImmdate() {
         return immdate;
     }
 
-    public void setImmdate(String immdate) {
+    public void setImmdate(Date immdate) {
         this.immdate = immdate;
     }
 

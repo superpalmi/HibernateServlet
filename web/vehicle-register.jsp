@@ -42,7 +42,7 @@
         </tr>
         <tr>
             <td>Data di immatricolazione :</td>
-            <td><input type="text" name="registrationDate" size="30" /></td>
+            <td><input type="date" name="registrationDate" size="30" /></td>
         </tr>
         <tr>
             <td>Tipologia :</td>

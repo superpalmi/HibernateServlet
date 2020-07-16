@@ -164,10 +164,22 @@ public class ReservationControllerServlet extends HttpServlet {
                 request.setAttribute("vehicleId", vehicleId);
 
             } else if (action.equalsIgnoreCase("delete")) {
-                forward = SHOWALL_JSP;
                 int reservationId = Integer.parseInt(request.getParameter("reservationId"));
-                reservationDao.deleteReservation(reservationId);
-                request.setAttribute("reservations", reservationDao.getAllReservations());
+
+                if(user.getRole().equalsIgnoreCase("superuser")) {
+                    forward = SHOWALL_JSP;
+
+                    reservationDao.deleteReservation(reservationId);
+                    request.setAttribute("reservations", reservationDao.getAllReservations());
+                }else{
+
+                    forward = SHOWALL_JSP;
+
+                    reservationDao.deleteReservation(reservationId);
+                    request.setAttribute("reservations", user.getReservations());
+
+
+                }
 
             } else if (action.equalsIgnoreCase("edit")) {
                 forward = EDIT_JSP;
@@ -184,37 +196,6 @@ public class ReservationControllerServlet extends HttpServlet {
                     out.println("alert('Utente non autorizzato');");
                     out.println("location='index.jsp';");
                     out.println("</script>");
-                }
-            } else if (action.equalsIgnoreCase("getuser")) {
-                forward = SHOWALL_JSP;
-
-                int i = Integer.parseInt(request.getParameter("reservationId"));
-                User u = reservationDao.getUser(i);
-                response.setContentType("text/html;charset=UTF-8");
-                try (PrintWriter out = response.getWriter()) {
-                    // reading the user input
-                    out.append("<ul>");
-                    out.append("<li>" + user.getUserName() + " " + user.getPhone()
-                            + "<br>Città:" + user.getCity()
-                            + "<br>Age:" + user.getPhone() + "</li>");
-                    out.append("</ul>");
-                    //request.setAttribute("reservations", reservationDao.getUser(i));
-                    request.setAttribute("user", user);
-                }
-
-            } else if (action.equalsIgnoreCase("getvehicle")) {
-
-                int i = Integer.parseInt(request.getParameter("reservationId"));
-                Vehicle vehicle = reservationDao.getVehicle(i);
-                response.setContentType("text/html;charset=UTF-8");
-                try (PrintWriter out = response.getWriter()) {
-                    // reading the user input
-                    out.append("<ul>");
-                    out.append("<li>" + vehicle.getModel() + " " + vehicle.getBrand()
-                            + "<br>Targa:" + vehicle.getPlate()
-                            + "<br>Data di Immatricolazione:" + vehicle.getImmdate() + "</li>");
-                    out.append("</ul>");
-                    //request.setAttribute("reservations", reservationDao.getUser(i));
                 }
             }
         }else forward=LOGIN_JSP;

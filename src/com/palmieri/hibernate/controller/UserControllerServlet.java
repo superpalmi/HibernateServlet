@@ -44,7 +44,10 @@ public class UserControllerServlet extends HttpServlet {
                           HttpServletResponse response) throws ServletException, IOException {
         //prendo i valori dalla form di register
        String forward ="";
-        if(request.getSession().getAttribute("user")!=null){
+       User user = (User) request.getSession().getAttribute("user");
+       String password1= request.getParameter("password1");
+       String password2=  request.getParameter("password2");
+        if(user!=null){
 
             if(request.getParameter("action")!=null && request.getParameter("action").equalsIgnoreCase("edit")){
                 String action = request.getParameter("action");
@@ -53,10 +56,20 @@ public class UserControllerServlet extends HttpServlet {
                 forward=SHOWALL_JSP;
 
             }
-        } else  insertUser(request, response);
-        forward=("index.jsp");
+        } else if (password1.equals(password2)) {
+            insertUser(request, response);
+            forward=INDEX_JSP;
+        }else {
+            PrintWriter out = response.getWriter();
+            out.println("<script type=\"text/javascript\">");
+            out.println("alert('Utente non autorizzato');");
+            out.println("location='index.jsp';");
+            out.println("</script>");
+           // forward = REGISTER_JSP;
+
+
+        }
         RequestDispatcher view = request.getRequestDispatcher(forward);
-       // response.sendRedirect("user-showall.jsp");
 
         view.forward(request, response);
 

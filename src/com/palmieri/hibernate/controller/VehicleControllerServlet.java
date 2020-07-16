@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @WebServlet("/VehicleControllerServlet")
 public class VehicleControllerServlet extends HttpServlet {
@@ -119,7 +122,17 @@ public class VehicleControllerServlet extends HttpServlet {
         String model = request.getParameter("model");
         String plate = request.getParameter("plate");
         String type = request.getParameter("type");
-        String immdate = request.getParameter("registrationDate");
+
+        String regDate = request.getParameter("registrationDate");
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date immdate = null;
+        try {
+            immdate = dateFormat.parse(regDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         //creo l'entità veicolo con i valori
         Vehicle vehicle = new Vehicle();

@@ -41,6 +41,9 @@
                             <c:out value="${vehicle.plate}" />
                         </td>
                         <td>
+                        <td><fmt:formatDate value="${vehicle.immdate}" /></td>
+                        </td>
+                        <td>
                             <a href="ReservationControllerServlet?action=create&vehicleId=
 
 														<c:out value="${vehicle.id}"/>">Prenota

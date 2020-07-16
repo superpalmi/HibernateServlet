@@ -39,8 +39,8 @@
             <td><c:out value="${reservation.id}" /></td>
             <td><c:out value="${reservation.user.id}" /></td>
             <td><c:out value="${reservation.vehicle.id}" /></td>
-            <td><fmt:formatDate value="${reservation.dataInizio}" pattern="YYYY/MM/DD" /></td>
-            <td><fmt:formatDate value="${reservation.dataFine}" pattern="YYYY/MM/DD" /></td>
+            <td><fmt:formatDate value="${reservation.dataInizio}" /></td>
+            <td><fmt:formatDate value="${reservation.dataFine}"  /></td>
             <td><c:out value="${reservation.user.userName}" /></td>
             <td><c:out value="${reservation.vehicle.plate}" /></td>
 
@@ -48,10 +48,7 @@
 
             <td><a href="ReservationControllerServlet?action=edit&reservationId=<c:out value="${reservation.id}"/>">Update</a></td>
             <td><a href="ReservationControllerServlet?action=delete&reservationId=<c:out value="${reservation.id}"/>">Delete</a></td>
-            <td><a href="ReservationControllerServlet?action=getuser&reservationId=<c:out value="${reservation.id}"/>">Visualizza Utente</a></td>
 
-
-            <td><a href="ReservationControllerServlet?action=getvehicle&reservationId=<c:out value="${reservation.id}"/>">Visualizza Veicolo</a></td>
         </tr>
     </c:forEach>
     </tbody>

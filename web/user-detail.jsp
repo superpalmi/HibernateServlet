@@ -89,14 +89,13 @@
                     <c:out value="Id: ${reservation.id} Targa: ${reservation.vehicle.plate}" />
                 </td>
                 <td>
-                    <fmt:formatDate value="${reservation.dataInizio}" pattern="YYYY/MM/DD" />
+                    <fmt:formatDate value="${reservation.dataInizio}"  />
                 </td>
                 <td>
-                    <fmt:formatDate value="${reservation.dataFine}" pattern="YYYY/MM/DD" />
+                    <fmt:formatDate value="${reservation.dataFine}"  />
                 </td>
                 <td>
-                    <a href="ReservationControllerServlet?action=edit&reservationId=
-														<c:out value="${reservation.id}"/>">Modifica Prenotazione
+                    <a href="ReservationControllerServlet?action=edit&reservationId=<c:out value="${reservation.id}"/>">Modifica Prenotazione
                     </a>
                 </td>
             </tr>
