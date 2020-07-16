@@ -47,7 +47,10 @@
 
 
             <td><a href="ReservationControllerServlet?action=edit&reservationId=<c:out value="${reservation.id}"/>">Update</a></td>
-            <td><a href="ReservationControllerServlet?action=delete&reservationId=<c:out value="${reservation.id}"/>">Delete</a></td>
+            <c:if test="${user.role=='superuser'}">
+                <td><a href="ReservationControllerServlet?action=delete&reservationId=<c:out value="${reservation.id}"/>">Delete</a></td>
+            </c:if>
+
 
         </tr>
     </c:forEach>

@@ -21,13 +21,14 @@ import java.util.Date;
 public class VehicleControllerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private static String EDIT_JSP = "/vehicle-edit.jsp";
-    private static String SHOWALL_JSP = "/vehicle-showall.jsp?action=showAll";
-    private static String REGISTER_JSP="/vehicle-register.jsp";
-    private static String LOGIN_JSP="/user-login.jsp";
+    private static final String EDIT_JSP = "/vehicle-edit.jsp";
+    private static final String SHOWALL_JSP = "/vehicle-showall.jsp?action=showAll";
+    private static final String REGISTER_JSP="/vehicle-register.jsp";
+    private static final String LOGIN_JSP="/user-login.jsp";
 
 
-    private VehicleDAO vehicleDao;
+    private final VehicleDAO vehicleDao;
+
     public VehicleControllerServlet() throws ServletException {
         super();
 
@@ -44,13 +45,16 @@ public class VehicleControllerServlet extends HttpServlet {
         User user = (User) request.getSession().getAttribute("user");
 
         //se l'user non è  nullo allora posso registrare e modificare i veicoli
-            if (user != null) {
+
+        if (user != null && user.getRole().equalsIgnoreCase("superuser")) {
                 //se action=edit allora modifico il veicolo già esistente
                 if (request.getParameter("action") != null && request.getParameter("action").equalsIgnoreCase("edit")) {
 
                     editVehicle(request, response);
 
-                } else insertVehicle(request, response);
+                } else if(request.getParameter("action") != null && request.getParameter("action").equalsIgnoreCase("insert")) {
+                    insertVehicle(request, response);
+                }
                 request.setAttribute("vehicles", vehicleDao.getAllVehicles());
                 RequestDispatcher view = request.getRequestDispatcher(SHOWALL_JSP);
 
@@ -60,14 +64,6 @@ public class VehicleControllerServlet extends HttpServlet {
 
                 view.forward(request, response);
             }
-
-
-
-
-
-
-
-
 
 
     }
@@ -80,37 +76,37 @@ public class VehicleControllerServlet extends HttpServlet {
 
         if(request.getSession().getAttribute("user")!=null) {
 
-            if (action.equalsIgnoreCase("delete")) {
-                forward = SHOWALL_JSP;
-                int vehicleId = Integer.parseInt(request.getParameter("vehicleId"));
-                vehicleDao.deleteVehicle(vehicleId);
-                request.setAttribute("vehicles", vehicleDao.getAllVehicles());
+            if(user.getRole().equalsIgnoreCase("superuser")){
 
-            } else if (action.equalsIgnoreCase("edit")) {
+                if (action.equalsIgnoreCase("delete")) {
+                    forward = SHOWALL_JSP;
+                    int vehicleId = Integer.parseInt(request.getParameter("vehicleId"));
+                    vehicleDao.deleteVehicle(vehicleId);
+                    request.setAttribute("vehicles", vehicleDao.getAllVehicles());
 
-                if(user.getRole().equalsIgnoreCase("superuser")){
+                } else if (action.equalsIgnoreCase("edit")) {
                     forward = EDIT_JSP;
                     int i = Integer.parseInt(request.getParameter("vehicleId"));
                     //editUser(request, response);
                     request.setAttribute("vehicleId", vehicleDao.getVehicle(i));
-                }else {
-                    PrintWriter out = response.getWriter();
-                    out.println("<script type=\"text/javascript\">");
-                    out.println("alert('Utente non autorizzato');");
-                    out.println("location='index.jsp';");
-                    out.println("</script>");
+                }else if(action.equalsIgnoreCase("create")){
+                    forward=EDIT_JSP;
+
                 }
 
 
-
-            } else if(action.equalsIgnoreCase("showAll")){
+            } else {
+                PrintWriter out = response.getWriter();
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('Utente non autorizzato');");
+                out.println("location='index.jsp';");
+                out.println("</script>");
+            }
+            if(action.equalsIgnoreCase("showAll")){
                 forward = SHOWALL_JSP;
                 request.setAttribute("vehicles", vehicleDao.getAllVehicles());
 
             }
-
-
-
 
         }else forward = LOGIN_JSP;
 
@@ -118,6 +114,7 @@ public class VehicleControllerServlet extends HttpServlet {
         view.forward(request, response);
     }
     private Vehicle readForm(HttpServletRequest request, HttpServletResponse response){
+
         String brand = request.getParameter("brand");
         String model = request.getParameter("model");
         String plate = request.getParameter("plate");

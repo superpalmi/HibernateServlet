@@ -18,29 +18,31 @@
 <body>
 <div class="row justify-content-center">
     <div class="col-auto">
-<h1> Registra Prenotazione</h1>
-<br/>
-<form action="<%=request.getContextPath()%>/ReservationControllerServlet?action=edit&reservationId=<%=request.getParameter("reservationId")%>" method="post">
-    <div class="table-responsive">
-        <table cellpadding="3pt" class="table">
-            <tr>
-                <td>Data di inizio</td>
-                <td>
-                    <input type="date" name="dataInizio" size="30" />
-                </td>
-            </tr>
-            <tr>
-                <td>Data di fine :</td>
-                <td>
-                    <input type="date" name="dataFine" size="30" />
-                </td>
-            </tr>
-        </table>
-        <input type="submit" value="Register" />
-    </div>
+        <h1> Registra Prenotazione</h1>
+        <% if (request.getParameter("action").equalsIgnoreCase("edit")){%>
+        <form action="<%=request.getContextPath()%>/ReservationControllerServlet?action=edit&reservationId=<%=request.getParameter("reservationId")%>" method="post">
+                <%}else if(request.getParameter("action").equalsIgnoreCase("create")){%>
+            <form action="<%=request.getContextPath()%>/ReservationControllerServlet?action=insert&vehicleId=<%=request.getParameter("vehicleId")%>" method="post">
+                <%}%>
+                <div class="table-responsive">
+                    <table cellpadding="3pt" class="table">
+                        <tr>
+                            <td>Data di inizio</td>
+                            <td>
+                                <input type="date" name="dataInizio" size="30" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Data di fine :</td>
+                            <td>
+                                <input type="date" name="dataFine" size="30" />
+                            </td>
+                        </tr>
+                    </table>
+                    <input type="submit" value="Register" class="btn btn-primary"/>
+                </div>
+            </form>
 
-
-</form>
     </div>
 </div>
 <div class="row">
@@ -48,6 +50,5 @@
         <a href="/index.jsp" class="btn btn-primary">Dashboard</a>
     </div>
 </div>
-
 </body>
 </html>

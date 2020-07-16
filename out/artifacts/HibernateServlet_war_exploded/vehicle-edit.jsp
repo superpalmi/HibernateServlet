@@ -18,10 +18,14 @@
 <body>
 <div class="row justify-content-center">
     <div class="col-auto">
-Modifica Veicolo
+ <h1> Inserimento dati Veicolo</h1>
 
 <br/>
+
+<%if(request.getParameter("action").equalsIgnoreCase("edit")){ %>
 <form action="<%=request.getContextPath()%>/VehicleControllerServlet?action=edit&vehicleId=<%=request.getParameter("vehicleId")%>" method="post">
+    <%}else if(request.getParameter("action").equalsIgnoreCase("create")) {%>
+    <form action="<%=request.getContextPath()%>/VehicleControllerServlet?action=insert" method="post"> <%}%>
     <div class="table-responsive">
         <table cellpadding="3pt" class="table">
             <tr>
@@ -57,7 +61,7 @@ Modifica Veicolo
         </table>
     </div>
     <p />
-    <input type="submit" value="Vehicle Register" />
+    <input type="submit" value="Vehicle Register" class="btn btn-primary"/>
 </form>
 <p>
     <a href="/index.jsp" class="btn btn-primary">Dashboard</a>

@@ -24,18 +24,7 @@
       <br/>
     </div>
 
-        <c:if test="${user.role=='superuser'}">
 
-          <a href="UserControllerServlet?action=showAll" class="btn btn-primary" > Lista Utenti </a>
-
-
-
-
-
-          <a href="vehicle-register.jsp" class="btn btn-primary" > Registra Veicolo</a>
-          <a href="ReservationControllerServlet?action=showAll" class="btn btn-primary" >Prenotazioni</a>
-
-        </c:if>
 
 
       <a href="VehicleControllerServlet?action=showAll" class="btn btn-primary" > Lista Veicoli </a>
@@ -47,5 +36,26 @@
     </div>
   </div>
 </div>
+<c:if test="${user.role=='superuser'}">
+<div class="row justify-content-center">
+  <div class="col-auto">
+    <div class="container pt-3">
+      <h2> Pannello Amministratore </h2>
+      <br/>
+    </div>
+
+
+
+      <a href="UserControllerServlet?action=showAll" class="btn btn-primary" > Lista Utenti </a>
+      <a href="VehicleControllerServlet?action=create" class="btn btn-primary" > Registra Veicolo</a>
+      <a href="ReservationControllerServlet?action=showAll" class="btn btn-primary" >Prenotazioni</a>
+
+
+  </div>
+</div>
+</div>
+</c:if>
+
+
 </body>
 </html>

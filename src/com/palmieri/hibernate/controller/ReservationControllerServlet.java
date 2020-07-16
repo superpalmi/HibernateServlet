@@ -26,7 +26,7 @@ public class ReservationControllerServlet extends HttpServlet {
 
     private static String EDIT_JSP = "/reservation-edit.jsp";
     private static String SHOWALL_JSP = "/reservation-showall.jsp?action=showAll";
-    private static String REGISTER_JSP="/reservation-register.jsp";
+    //private static String REGISTER_JSP="/reservation-register.jsp";
     private static String LOGIN_JSP="/user-login.jsp";
     private ReservationDAO reservationDao;
     private VehicleDAO vehicleDAO;
@@ -79,7 +79,7 @@ public class ReservationControllerServlet extends HttpServlet {
                 }else try(PrintWriter out = response.getWriter()){
                     out.println("<script type=\"text/javascript\">");
                     out.println("alert('Veicolo non disponibile nelle date scelte');");
-                    out.println("location='reservation-register.jsp';");
+                    out.println("location='reservation-edit.jsp';");
                     out.println("</script>");
 
 
@@ -158,8 +158,9 @@ public class ReservationControllerServlet extends HttpServlet {
         User user = (User) request.getSession().getAttribute("user");
         String action = request.getParameter("action");
         if(user!=null) {
+
             if (action.equalsIgnoreCase("create")) {
-                forward = REGISTER_JSP;
+                forward = EDIT_JSP;
                 int vehicleId = Integer.parseInt(request.getParameter("vehicleId"));
                 request.setAttribute("vehicleId", vehicleId);
 
@@ -262,6 +263,7 @@ public class ReservationControllerServlet extends HttpServlet {
             String v = request.getParameter("vehicleId");
             int vehicleId = Integer.parseInt(request.getParameter("vehicleId"));
             Vehicle vehicle = vehicleDAO.getVehicle(vehicleId);
+
             Reservation reservation = readForm(request, response);
             reservation.setVehicle(vehicle);
             reservation.setUser(user);

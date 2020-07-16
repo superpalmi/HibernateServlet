@@ -108,6 +108,7 @@
 
         <p>
             <a href="/index.jsp" class="btn btn-primary">Dashboard</a>
+            <a href="VehicleControllerServlet?action=showAll" class="btn btn-primary"> Aggiungi una Prenotazione </a>
         </p>
     </div>
 </div>

@@ -50,24 +50,31 @@ public class UserControllerServlet extends HttpServlet {
         if(user!=null){
 
             if(request.getParameter("action")!=null && request.getParameter("action").equalsIgnoreCase("edit")){
-                String action = request.getParameter("action");
-                editUser(request,response);
-                request.setAttribute("users", userDao.getAllUsers());
-                forward=SHOWALL_JSP;
+                if (password1.equals(password2)) {
+                    editUser(request, response);
+                    forward = INDEX_JSP;
+                } else {
+                    PrintWriter out = response.getWriter();
+                    out.println("<script type=\"text/javascript\">");
+                    out.println("alert('Le password non corrispondono');");
+                    out.println("location='user-edit.jsp';");
+                    out.println("</script>");
+
+                }
+            }
+        } else if (request.getParameter("action")!=null && request.getParameter("action").equalsIgnoreCase("insert")) {
+
+            if (password1.equals(password2)) {
+                insertUser(request, response);
+                forward = INDEX_JSP;
+            } else {
+                PrintWriter out = response.getWriter();
+                out.println("<script type=\"text/javascript\">");
+                out.println("alert('Le password non corrispondono');");
+                out.println("location='user-edit.jsp';");
+                out.println("</script>");
 
             }
-        } else if (password1.equals(password2)) {
-            insertUser(request, response);
-            forward=INDEX_JSP;
-        }else {
-            PrintWriter out = response.getWriter();
-            out.println("<script type=\"text/javascript\">");
-            out.println("alert('Utente non autorizzato');");
-            out.println("location='index.jsp';");
-            out.println("</script>");
-           // forward = REGISTER_JSP;
-
-
         }
         RequestDispatcher view = request.getRequestDispatcher(forward);
 
@@ -120,7 +127,9 @@ public class UserControllerServlet extends HttpServlet {
                 RequestDispatcher view = request.getRequestDispatcher(forward);
                 view.forward(request, response);
             }
-        } else if(user==null) {
+        } else if(user==null && action.equalsIgnoreCase("create")) {
+            forward=("user-edit.jsp");
+        }else if(user==null){
             forward=("user-login.jsp");
             RequestDispatcher view = request.getRequestDispatcher(forward);
             view.forward(request, response);

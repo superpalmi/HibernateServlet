@@ -22,6 +22,7 @@
                     <th>Brand</th>
                     <th>Model</th>
                     <th>Plate</th>
+                    <th>Immatricolation Date</th>
                     <th colspan=2>Action</th>
                 </tr>
                 </thead>
@@ -41,37 +42,36 @@
                             <c:out value="${vehicle.plate}" />
                         </td>
                         <td>
-                        <td><fmt:formatDate value="${vehicle.immdate}" /></td>
+                            <fmt:formatDate value="${vehicle.immdate}" />
                         </td>
                         <td>
                             <a href="ReservationControllerServlet?action=create&vehicleId=
-
 														<c:out value="${vehicle.id}"/>">Prenota
-
                             </a>
                         </td>
-                        <td>
-                            <a href="VehicleControllerServlet?action=edit&vehicleId=
 
+                        <c:if test="${user.role=='superuser'}" >
+                            <td>
+                                <a href="VehicleControllerServlet?action=delete&vehicleId=
+															<c:out value="${vehicle.id}"/>">Delete
+                                </a>
+                            </td>
+                            <td>
+                                <a href="VehicleControllerServlet?action=edit&vehicleId=
 														<c:out value="${vehicle.id}"/>">Update
-
-                            </a>
-                        </td>
-                        <td>
-                            <a href="VehicleControllerServlet?action=delete&vehicleId=
-
-														<c:out value="${vehicle.id}"/>">Delete
-
-                            </a>
-                        </td>
+                                </a>
+                            </td>
+                        </c:if>
                     </tr>
                 </c:forEach>
                 </tbody>
             </table>
         </div>
-        <p>
-            <a href="/vehicle-register.jsp" class="btn btn-primary">Add vehicle</a>
-        </p>
+        <c:if test="${user.role=='superuser'}" >
+            <p>
+                <a href="/VehicleControllerServlet?action=create" class="btn btn-primary">Add vehicle</a>
+            </p>
+        </c:if>
         <p>
             <a href="/index.jsp" class="btn btn-primary">Dashboard</a>
         </p>
