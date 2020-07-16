@@ -93,7 +93,7 @@ public class UserControllerServlet extends HttpServlet {
                         PrintWriter out = response.getWriter();
                         out.println("<script type=\"text/javascript\">");
                         out.println("alert('Utente non autorizzato');");
-                        out.println("location='user-login.jsp';");
+                        out.println("location='index.jsp';");
                         out.println("</script>");
                         forward = INDEX_JSP;
 
@@ -118,28 +118,35 @@ public class UserControllerServlet extends HttpServlet {
         view.forward(request, response);
 
     }
-
-
-
-    private void editUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        // leggo i dati presi dalla Form di registrazione/modifica
+    private User readForm(HttpServletRequest request, HttpServletResponse response){
         String userName = request.getParameter("userName");
         String password = request.getParameter("password1");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
         String city = request.getParameter("city");
         String role = request.getParameter("role");
-        int id = Integer.parseInt(request.getParameter("userId"));
-
-        //creo l'entità utente con i valori
         User user = new User();
-        user.setId(id);
         user.setUserName(userName);
         user.setPassword1(password);
         user.setEmail(email);
         user.setPhone(phone);
         user.setCity(city);
         user.setRole(role);
+        return user;
 
+
+    }
+
+
+
+    private void editUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+
+        int id = Integer.parseInt(request.getParameter("userId"));
+
+        //creo l'entità utente con i valori
+        User user = readForm(request, response);
+        user.setId(id);
 
         //passo al middleware DAO per la mappatura in hibernate
         userDao.updateUser(user);
@@ -148,31 +155,8 @@ public class UserControllerServlet extends HttpServlet {
     }
 
     private void insertUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        String userName = request.getParameter("userName");
-        String password = request.getParameter("password1");
-        String email = request.getParameter("email");
-        String phone = request.getParameter("phone");
-        String city = request.getParameter("city");
-        String role = request.getParameter("role");
-        //boolean auth = request.getParameter("auth");
-        //creo l'entità utente con i valori
-        User user = new User();
-        //Reservation reservation=new Reservation();
-        user.setUserName(userName);
-        user.setPassword1(password);
-        user.setEmail(email);
-        user.setPhone(phone);
-        user.setCity(city);
-        user.setRole(role);
-        //user.setReservation(reservation);
-        //passo al middleware DAO per la mappatura in hibernate
+        User user = readForm(request, response);
         userDao.saveUser(user);
-
-
-        //RequestDispatcher view = request.getRequestDispatcher(SHOWALL_JSP);
-        //request.setAttribute("users", userDao.getAllUsers());
-        //view.forward(request, response);
-       //
 
 
     }

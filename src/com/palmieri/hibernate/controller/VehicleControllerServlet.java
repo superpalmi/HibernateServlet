@@ -37,15 +37,14 @@ public class VehicleControllerServlet extends HttpServlet {
         }
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //prendo l'utente della sessione
         User user = (User) request.getSession().getAttribute("user");
-        //inserisco i valori nel middleware DAO
-        //if(user.getRole().equalsIgnoreCase("superuser")) {
 
-
-            //String action = request.getParameter("action");
+        //se l'user non è  nullo allora posso registrare e modificare i veicoli
             if (user != null) {
+                //se action=edit allora modifico il veicolo già esistente
                 if (request.getParameter("action") != null && request.getParameter("action").equalsIgnoreCase("edit")) {
-                    String action = request.getParameter("action");
+
                     editVehicle(request, response);
 
                 } else insertVehicle(request, response);
@@ -59,14 +58,7 @@ public class VehicleControllerServlet extends HttpServlet {
                 view.forward(request, response);
             }
 
-       /* }else {
-            PrintWriter out = response.getWriter();
-            out.println("<script type=\"text/javascript\">");
-            out.println("alert('Utente non autorizzato');");
-            out.println("location='user-login.jsp';");
-            out.println("</script>");
 
-        }*/
 
 
 
@@ -82,7 +74,9 @@ public class VehicleControllerServlet extends HttpServlet {
         String forward="";
         User user = (User) request.getSession().getAttribute("user");
         String action = request.getParameter("action");
+
         if(request.getSession().getAttribute("user")!=null) {
+
             if (action.equalsIgnoreCase("delete")) {
                 forward = SHOWALL_JSP;
                 int vehicleId = Integer.parseInt(request.getParameter("vehicleId"));
@@ -100,7 +94,7 @@ public class VehicleControllerServlet extends HttpServlet {
                     PrintWriter out = response.getWriter();
                     out.println("<script type=\"text/javascript\">");
                     out.println("alert('Utente non autorizzato');");
-                    out.println("location='user-login.jsp';");
+                    out.println("location='index.jsp';");
                     out.println("</script>");
                 }
 
@@ -120,40 +114,37 @@ public class VehicleControllerServlet extends HttpServlet {
         RequestDispatcher view = request.getRequestDispatcher(forward);
         view.forward(request, response);
     }
-
-    private void editVehicle(HttpServletRequest request, HttpServletResponse response) {
+    private Vehicle readForm(HttpServletRequest request, HttpServletResponse response){
         String brand = request.getParameter("brand");
         String model = request.getParameter("model");
         String plate = request.getParameter("plate");
         String type = request.getParameter("type");
         String immdate = request.getParameter("registrationDate");
-        int id = Integer.parseInt(request.getParameter("vehicleId"));
+
         //creo l'entità veicolo con i valori
         Vehicle vehicle = new Vehicle();
-        vehicle.setId(id);
+
         vehicle.setBrand(brand);
         vehicle.setModel(model);
         vehicle.setPlate(plate);
         vehicle.setImmdate(immdate);
         vehicle.setType(type);
+        return vehicle;
+    }
 
+    private void editVehicle(HttpServletRequest request, HttpServletResponse response) {
+       //leggo il veicolo da modificare dalla form
+        Vehicle vehicle = readForm(request,response);
+        //siccome è una modifica devo modificare il veicolo con quell'id preso dalla richiesta
+        int id = Integer.parseInt(request.getParameter("vehicleId"));
+        vehicle.setId(id);
         //passo al middleware DAO per la mappatura in hibernate
         vehicleDao.updateVehicle(vehicle);
     }
 
     private void insertVehicle(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //prendo i valori dalla form di register
-        String brand = request.getParameter("brand");
-        String model = request.getParameter("model");
-        String plate = request.getParameter("plate");
-        String type = request.getParameter("type");
-        String immdate = request.getParameter("registrationDate");
-        //creo l'entità veicolo con i valori
-        Vehicle vehicle = new Vehicle();
-        vehicle.setBrand(brand);
-        vehicle.setModel(model);
-        vehicle.setPlate(plate);
-        vehicle.setImmdate(immdate);
+        Vehicle vehicle=readForm(request, response);
         //passo al middleware DAO per la mappatura in hibernate
         VehicleDAO.saveVehicle(vehicle);
     }

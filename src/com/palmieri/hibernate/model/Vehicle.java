@@ -1,7 +1,11 @@
 package com.palmieri.hibernate.model;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "vehicles")
@@ -19,6 +23,10 @@ public class Vehicle implements Serializable {
     private String plate;
     @Column(name="type")
     private String type;
+
+    @OneToMany (cascade = {CascadeType.ALL})
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Reservation> reservations;
 
     public int getId() {
         return id;
@@ -66,5 +74,13 @@ public class Vehicle implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations( Reservation reservation) {
+        this.reservations.add(reservation) ;
     }
 }

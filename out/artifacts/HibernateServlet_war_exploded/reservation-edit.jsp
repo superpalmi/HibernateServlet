@@ -26,13 +26,13 @@
             <tr>
                 <td>Data di inizio</td>
                 <td>
-                    <input type="text" name="dataInizio" size="30" />
+                    <input type="date" name="dataInizio" size="30" />
                 </td>
             </tr>
             <tr>
                 <td>Data di fine :</td>
                 <td>
-                    <input type="text" name="dataFine" size="30" />
+                    <input type="date" name="dataFine" size="30" />
                 </td>
             </tr>
         </table>

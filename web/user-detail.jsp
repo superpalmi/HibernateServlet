@@ -28,9 +28,6 @@
                     <th>Phone</th>
                     <th>City</th>
                     <th>Ruolo</th>
-                    <th>Veicolo Prenotato</th>
-                    <th> Data Inizio</th>
-                    <th> Data Fine</th>
                     <th colspan=2>Action</th>
                 </tr>
                 </thead>
@@ -55,25 +52,13 @@
                         <td>
                             <c:out value="${user.role}" />
                         </td>
-                        <td>
-                            <c:out value="Id: ${user.reservation.id} Targa: ${user.reservation.vehicle.plate}" />
-                        </td>
-                        <td>
-                            <fmt:formatDate value="${user.reservation.dataInizio}" pattern="YYYY/MM/DD" />
-                        </td>
-                        <td>
-                            <fmt:formatDate value="${user.reservation.dataFine}" pattern="YYYY/MM/DD" />
-                        </td>
+
                         <td>
                             <a href="UserControllerServlet?action=edit&userId=
 														<c:out value="${user.id}"/>">Aggiorna dati Utente
                             </a>
                         </td>
-                        <td>
-                            <a href="ReservationControllerServlet?action=edit&reservationId=
-														<c:out value="${user.reservation.id}"/>">Modifica Prenotazione
-                            </a>
-                        </td>
+
                         <c:if test="${user.role=='superuser'}">
                             <td>
                                 <a href="UserControllerServlet?action=delete&userId=
@@ -86,10 +71,47 @@
                 </tbody>
             </table>
         </div>
+        <div class="table-responsive">
+            <table border=1 class="table">
+                <thead>
+                <tr>
+                    <th>Prenotazione</th>
+
+
+                </tr>
+                </thead>
+
+                <tbody>
+                <c:forEach items="${user.reservations}" var="reservation">
+
+            <tr>
+                <td>
+                    <c:out value="Id: ${reservation.id} Targa: ${reservation.vehicle.plate}" />
+                </td>
+                <td>
+                    <fmt:formatDate value="${reservation.dataInizio}" pattern="YYYY/MM/DD" />
+                </td>
+                <td>
+                    <fmt:formatDate value="${reservation.dataFine}" pattern="YYYY/MM/DD" />
+                </td>
+                <td>
+                    <a href="ReservationControllerServlet?action=edit&reservationId=
+														<c:out value="${reservation.id}"/>">Modifica Prenotazione
+                    </a>
+                </td>
+            </tr>
+                </c:forEach>
+
+                </tbody>
+            </table>
+
+        </div>
+
         <p>
             <a href="/index.jsp" class="btn btn-primary">Dashboard</a>
         </p>
     </div>
 </div>
+
 </body>
 </html>

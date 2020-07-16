@@ -15,9 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 @WebServlet("/ReservationControllerServlet")
 public class ReservationControllerServlet extends HttpServlet {
@@ -53,22 +55,38 @@ public class ReservationControllerServlet extends HttpServlet {
         if(user!=null) {
             if (request.getParameter("action") != null && request.getParameter("action").equalsIgnoreCase("edit")) {
                 String action = request.getParameter("action");
-                editReservation(request, response);
+                if(checkDate(request, response)&&checkVehicle(request, response)){
+                    editReservation(request, response);
+                }else try(PrintWriter out = response.getWriter()){
+                    out.println("<script type=\"text/javascript\">");
+                    out.println("alert('Veicolo non disponibile nelle date scelte');");
+                    out.println("location='reservation-edit.jsp';");
+                    out.println("</script>");
+                }
+
+
 
             } else if (request.getParameter("action") != null && request.getParameter("action").equalsIgnoreCase("insert") && request.getParameter("vehicleId") != null ) {
-                if(user.getReservation()==null) {
+                if(user.getReservations()==null) {
+
+                        String action = request.getParameter("action");
+                        insertReservation(request, response);
+
+                }else if(checkDate(request, response)&&checkVehicle(request, response)){
                     String action = request.getParameter("action");
                     insertReservation(request, response);
-                }else try (PrintWriter out = response.getWriter()) {
 
-                    String someMessage = "Error !";
+                }else try(PrintWriter out = response.getWriter()){
+                    out.println("<script type=\"text/javascript\">");
+                    out.println("alert('Veicolo non disponibile nelle date scelte');");
+                    out.println("location='reservation-register.jsp';");
+                    out.println("</script>");
 
-                    out.print("<html><head>");
-                    out.print("<script type=\"text/javascript\">alert(\"puoi prenotare solo un veicolo per volta\");</script>");
-                    out.print("</head><body></body></html>");
+
                 }
             }
-            request.setAttribute("reservations", reservationDao.getAllReservations());
+
+            request.setAttribute("reservations", user.getReservations());
             RequestDispatcher view = request.getRequestDispatcher(SHOWALL_JSP);
 
             view.forward(request, response);
@@ -83,6 +101,56 @@ public class ReservationControllerServlet extends HttpServlet {
 
     }
 
+    private boolean checkDate(HttpServletRequest request, HttpServletResponse response){
+
+        User user = (User) request.getSession().getAttribute("user");
+        Reservation res = readForm(request, response);
+
+        Date dataInizio = res.getDataInizio();
+        Date dataFine = res.getDataFine();
+        List<Reservation> userReservations = user.getReservations();
+        boolean result = false;
+
+        for (int i=0; i<userReservations.size(); i++){
+
+            if(((dataInizio.after(userReservations.get(i).getDataInizio()) && dataInizio.before(user.getReservations().get(i).getDataFine())) || (dataFine.after(user.getReservations().get(i).getDataInizio()) && dataFine.before(user.getReservations().get(i).getDataFine())))||((dataInizio.equals(user.getReservations().get(i).getDataInizio()))&&(dataFine.equals(user.getReservations().get(i).getDataFine())))){
+                    return result;
+
+            }else return result=true;
+
+
+        }
+
+        return result = true;
+
+
+
+
+    }
+
+    private boolean checkVehicle(HttpServletRequest request, HttpServletResponse response){
+        Reservation res = readForm(request, response);
+        int v=Integer.parseInt(request.getParameter("vehicleId"));
+        Vehicle vehicle=vehicleDAO.getVehicle(v);
+
+        Date dataInizio = res.getDataInizio();
+        Date dataFine = res.getDataFine();
+        List<Reservation> vehicleReservations = vehicle.getReservations();
+        boolean result = false;
+        for (int i=0; i<vehicleReservations.size(); i++){
+
+            if(((dataInizio.after(vehicleReservations.get(i).getDataInizio()) && dataInizio.before(vehicle.getReservations().get(i).getDataFine())) || (dataFine.after(vehicle.getReservations().get(i).getDataInizio()) && dataFine.before(vehicle.getReservations().get(i).getDataFine())))||((dataInizio.equals(vehicle.getReservations().get(i).getDataInizio()))&&(dataFine.equals(vehicle.getReservations().get(i).getDataFine())))){
+                return result;
+
+            }else return result=true;
+
+
+        }
+
+        return result = true;
+
+    }
+
 
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -94,8 +162,6 @@ public class ReservationControllerServlet extends HttpServlet {
                 forward = REGISTER_JSP;
                 int vehicleId = Integer.parseInt(request.getParameter("vehicleId"));
                 request.setAttribute("vehicleId", vehicleId);
-                //reservationDao.saveReservation(vehicleId);
-                //request.setAttribute("reservations", reservationDao.getAllReservations());
 
             } else if (action.equalsIgnoreCase("delete")) {
                 forward = SHOWALL_JSP;
@@ -116,7 +182,7 @@ public class ReservationControllerServlet extends HttpServlet {
                     PrintWriter out = response.getWriter();
                     out.println("<script type=\"text/javascript\">");
                     out.println("alert('Utente non autorizzato');");
-                    out.println("location='user-login.jsp';");
+                    out.println("location='index.jsp';");
                     out.println("</script>");
                 }
             } else if (action.equalsIgnoreCase("getuser")) {
@@ -160,13 +226,11 @@ public class ReservationControllerServlet extends HttpServlet {
 
     }
 
-    private void editReservation(HttpServletRequest request, HttpServletResponse response)  {
+    private Reservation readForm(HttpServletRequest request, HttpServletResponse response){
+        String StartTimeStr = request.getParameter("dataInizio");
+        String EndTimeStr = request.getParameter("dataFine");
 
-
-            String StartTimeStr = request.getParameter("dataInizio");
-            String EndTimeStr = request.getParameter("dataFine");
-
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         Date dataInizio = null;
         try {
@@ -181,21 +245,28 @@ public class ReservationControllerServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        //int userId= Integer.parseInt(request.getParameter("userId"));
-        //int vehicleId= Integer.parseInt(request.getParameter("vehicleId"));
+        Reservation reservation = new Reservation();
+
+        reservation.setDataInizio(dataInizio);
+        reservation.setDataFine(dataFine);
+
+        return reservation;
+
+
+
+
+
+    }
+
+    private void editReservation(HttpServletRequest request, HttpServletResponse response)  {
+
+
         int id = Integer.parseInt(request.getParameter("reservationId"));
         Reservation old = reservationDao.getReservation(id);
 
 
-        Reservation reservation = new Reservation();
-
-       // User user = reservationDao.getUser(userId);
-        //Vehicle vehicle= vehicleDAO.getVehicle(vehicleId);
-        //creo l'entità reservation
-        //Reservation reservation = new Reservation();
+        Reservation reservation = readForm(request, response);
         reservation.setId(id);
-        reservation.setDataInizio(dataInizio);
-        reservation.setDataFine(dataFine);
         reservation.setUser(old.getUser());
         reservation.setVehicle(old.getVehicle());
         reservationDao.updateReservation(reservation);
@@ -206,42 +277,17 @@ public class ReservationControllerServlet extends HttpServlet {
     }
 
     private void insertReservation(HttpServletRequest request, HttpServletResponse response) {
-        String StartTimeStr = request.getParameter("dataInizio");
-        String EndTimeStr = request.getParameter("dataFine");
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-        Date dataInizio= null;
-        try {
-            dataInizio = dateFormat.parse(StartTimeStr);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Date dataFine = null;
-        try {
-            dataFine = dateFormat.parse(EndTimeStr);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        User user = (User) request.getSession().getAttribute("user");
-
-            //String userId=(String) request.getSession().getAttribute("id");
+            User user = (User) request.getSession().getAttribute("user");
             String v = request.getParameter("vehicleId");
             int vehicleId = Integer.parseInt(request.getParameter("vehicleId"));
-            //User user = reservationDao.getUser(userId);
             Vehicle vehicle = vehicleDAO.getVehicle(vehicleId);
-            ;
-            //creo l'entità reservations
-            Reservation reservation = new Reservation();
-            reservation.setDataInizio(dataInizio);
-            reservation.setDataFine(dataFine);
-            reservation.setUser(user);
-
-
+            Reservation reservation = readForm(request, response);
             reservation.setVehicle(vehicle);
-            user.setReservation(reservation);
+            reservation.setUser(user);
+            vehicle.setReservations(reservation);
+            user.setReservations(reservation);
             userDAO.updateUser(user);
+            vehicleDAO.updateVehicle(vehicle);
             reservationDao.saveReservation(reservation);
 
 

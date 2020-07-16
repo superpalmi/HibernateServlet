@@ -1,7 +1,11 @@
 package com.palmieri.hibernate.model;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -32,9 +36,10 @@ public class User implements Serializable {
 
 
 
-    @OneToOne (cascade = {CascadeType.ALL})
-    @JoinColumn(name="ReservationId")
-    private Reservation reservation;
+
+    @OneToMany (cascade = {CascadeType.ALL})
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Reservation> reservations;
 
 
 
@@ -89,19 +94,22 @@ public class User implements Serializable {
     public void setCity(String city) {
         this.city = city;
     }
-    public Reservation getReservation() {
-        return reservation;
-    }
 
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
-    }
+
     public String getRole() {
         return role;
     }
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations( Reservation reservation) {
+        this.reservations.add(reservation) ;
     }
 
 

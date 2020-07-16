@@ -24,6 +24,9 @@
         <th>User Id</th>
         <th>UserName</th>
         <th>Email</th>
+        <th>Citt?</th>
+        <th>Phone</th>
+        <th>Ruolo</th>
         <th colspan=2>Action</th>
     </tr>
     </thead>
@@ -34,6 +37,9 @@
             <td><c:out value="${user.id}" /></td>
             <td><c:out value="${user.userName}" /></td>
             <td><c:out value="${user.email}" /></td>
+            <td><c:out value="${user.city}" /></td>
+            <td><c:out value="${user.phone}" /></td>
+            <td><c:out value="${user.role}" /></td>
 
             <td><a href="UserControllerServlet?action=edit&userId=<c:out value="${user.id}"/>">Update</a></td>
             <td><a href="UserControllerServlet?action=delete&userId=<c:out value="${user.id}"/>">Delete</a></td>
