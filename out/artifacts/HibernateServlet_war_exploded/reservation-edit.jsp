@@ -20,7 +20,7 @@
     <div class="col-auto">
         <h1> Registra Prenotazione</h1>
         <% if (request.getParameter("action").equalsIgnoreCase("edit")){%>
-        <form action="<%=request.getContextPath()%>/ReservationControllerServlet?action=edit&reservationId=<%=request.getParameter("reservationId")%>" method="post">
+        <form action="<%=request.getContextPath()%>/ReservationControllerServlet?action=edit&reservationId=<%=request.getParameter("reservationId")%>&vehicleId=<%=request.getParameter("vehicleId")%>" method="post">
                 <%}else if(request.getParameter("action").equalsIgnoreCase("create")){%>
             <form action="<%=request.getContextPath()%>/ReservationControllerServlet?action=insert&vehicleId=<%=request.getParameter("vehicleId")%>" method="post">
                 <%}%>

@@ -102,12 +102,12 @@ public class ReservationControllerServlet extends HttpServlet {
     }
 
     private boolean checkDate(HttpServletRequest request, HttpServletResponse response){
+        int id=Integer.parseInt(request.getParameter("reservationId"));
 
         User user = (User) request.getSession().getAttribute("user");
-        Reservation res = readForm(request, response);
-
-        Date dataInizio = res.getDataInizio();
-        Date dataFine = res.getDataFine();
+        Reservation res = readForm(request,response);
+        Date dataInizio=res.getDataInizio();
+        Date dataFine=res.getDataFine();
         List<Reservation> userReservations = user.getReservations();
         boolean result = false;
 
@@ -116,12 +116,10 @@ public class ReservationControllerServlet extends HttpServlet {
             if(((dataInizio.after(userReservations.get(i).getDataInizio()) && dataInizio.before(user.getReservations().get(i).getDataFine())) || (dataFine.after(user.getReservations().get(i).getDataInizio()) && dataFine.before(user.getReservations().get(i).getDataFine())))||((dataInizio.equals(user.getReservations().get(i).getDataInizio()))&&(dataFine.equals(user.getReservations().get(i).getDataFine())))){
                     return result;
 
-            }else return result=true;
+            }
 
 
-        }
-
-        return result = true;
+        }return result = true;
 
 
 
@@ -130,8 +128,10 @@ public class ReservationControllerServlet extends HttpServlet {
 
     private boolean checkVehicle(HttpServletRequest request, HttpServletResponse response){
         Reservation res = readForm(request, response);
-        int v=Integer.parseInt(request.getParameter("vehicleId"));
-        Vehicle vehicle=vehicleDAO.getVehicle(v);
+        Reservation old=reservationDao.getReservation(res.getId());
+        //int id=Integer.parseInt(request.getParameter("vehicleId"));
+
+        Vehicle vehicle=old.getVehicle();
 
         Date dataInizio = res.getDataInizio();
         Date dataFine = res.getDataFine();
@@ -142,12 +142,10 @@ public class ReservationControllerServlet extends HttpServlet {
             if(((dataInizio.after(vehicleReservations.get(i).getDataInizio()) && dataInizio.before(vehicle.getReservations().get(i).getDataFine())) || (dataFine.after(vehicle.getReservations().get(i).getDataInizio()) && dataFine.before(vehicle.getReservations().get(i).getDataFine())))||((dataInizio.equals(vehicle.getReservations().get(i).getDataInizio()))&&(dataFine.equals(vehicle.getReservations().get(i).getDataFine())))){
                 return result;
 
-            }else return result=true;
+            }
 
 
-        }
-
-        return result = true;
+        }return result = true;
 
     }
 
@@ -184,9 +182,12 @@ public class ReservationControllerServlet extends HttpServlet {
 
             } else if (action.equalsIgnoreCase("edit")) {
                 forward = EDIT_JSP;
-                int i = Integer.parseInt(request.getParameter("reservationId"));
+               int i = Integer.parseInt(request.getParameter("reservationId"));
+                //int vehicleId = Integer.parseInt(request.getParameter("vehicleId"));
                 //editUser(request, response);
                 request.setAttribute("reservationId", reservationDao.getReservation(i));
+                //request.setAttribute("vehicleId", vehicleId);
+
             } else if (action.equalsIgnoreCase("showAll")) {
                 if(user.getRole().equalsIgnoreCase("superuser")){
                     forward = SHOWALL_JSP;
