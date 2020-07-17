@@ -67,9 +67,9 @@ public class ReservationControllerServlet extends HttpServlet {
                     view.forward(request, response);
                 }else try(PrintWriter out = response.getWriter()){
                     request.setAttribute("action", "edit");
-                    request.setAttribute("vehicleId", request.getParameter("vehicleId"));
+                    request.setAttribute("reservationId", request.getParameter("reservationId"));
                     request.setAttribute("message", "Veicolo non disponibile nelle date scelte");
-                    RequestDispatcher view = request.getRequestDispatcher("ReservationControllerServlet");
+                    RequestDispatcher view = request.getRequestDispatcher("reservation-edit.jsp");
 
                     view.forward(request, response);
 
@@ -175,7 +175,7 @@ public class ReservationControllerServlet extends HttpServlet {
             return result = true;
         }else if(request.getParameter("action").equalsIgnoreCase("edit")){
             int id = Integer.parseInt(request.getParameter("reservationId"));
-            res.setId(id);
+            res=reservationDao.getReservation(id);
             vehicle =res.getVehicle();
             vehicleReservations = vehicle.getReservations();
             Date dataInizio = res.getDataInizio();
