@@ -16,10 +16,13 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </head>
 <body>
+
 <div class="row justify-content-center">
+
     <div class="col-auto">
+        <h1>Profilo Utente</h1>
         <div class="table-responsive">
-            <table border=1 class="table">
+            <table border=1 class="table-responsive">
                 <thead>
                 <tr>
                     <th>User Id</th>
@@ -52,17 +55,19 @@
                         <td>
                             <c:out value="${user.role}" />
                         </td>
-
                         <td>
                             <a href="UserControllerServlet?action=edit&userId=
+
 														<c:out value="${user.id}"/>">Aggiorna dati Utente
+
                             </a>
                         </td>
-
                         <c:if test="${user.role=='superuser'}">
                             <td>
                                 <a href="UserControllerServlet?action=delete&userId=
+
 															<c:out value="${user.id}"/>">Cancella Utente
+
                                 </a>
                             </td>
                         </c:if>
@@ -71,45 +76,49 @@
                 </tbody>
             </table>
         </div>
+    </div>
+    <div class="col-auto">
+        <h1>Prenotazioni Effettuate</h1>
         <div class="table-responsive">
-            <table border=1 class="table">
+            <table border=1 class="table-responsive">
                 <thead>
                 <tr>
                     <th>Prenotazione</th>
-
-
                 </tr>
                 </thead>
-
                 <tbody>
                 <c:forEach items="${user.reservations}" var="reservation">
+                    <tr>
+                        <td>
+                            <c:out value="Id: ${reservation.id} Targa: ${reservation.vehicle.plate}" />
+                        </td>
+                        <td>
+                            <fmt:formatDate value="${reservation.dataInizio}"  />
+                        </td>
+                        <td>
+                            <fmt:formatDate value="${reservation.dataFine}"  />
+                        </td>
+                        <td>
+                            <a href="ReservationControllerServlet?action=edit&reservationId=
+														<c:out value="${reservation.id}"/>">Modifica Prenotazione
 
-            <tr>
-                <td>
-                    <c:out value="Id: ${reservation.id} Targa: ${reservation.vehicle.plate}" />
-                </td>
-                <td>
-                    <fmt:formatDate value="${reservation.dataInizio}"  />
-                </td>
-                <td>
-                    <fmt:formatDate value="${reservation.dataFine}"  />
-                </td>
-                <td>
-                    <a href="ReservationControllerServlet?action=edit&reservationId=<c:out value="${reservation.id}"/>">Modifica Prenotazione
-                    </a>
-                </td>
-            </tr>
+                            </a>
+                        </td>
+                    </tr>
                 </c:forEach>
-
                 </tbody>
             </table>
-
         </div>
-
         <p>
-            <a href="/index.jsp" class="btn btn-primary">Dashboard</a>
+
             <a href="VehicleControllerServlet?action=showAll" class="btn btn-primary"> Aggiungi una Prenotazione </a>
         </p>
+    </div>
+
+</div>
+<div class="row justify-content-center">
+    <div class="col-auto">
+        <a href="/index.jsp" class="btn btn-primary">Dashboard</a>
     </div>
 </div>
 

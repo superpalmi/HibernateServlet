@@ -1,9 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
-         pageEncoding="EUC-KR"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+         pageEncoding="EUC-KR"%><%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%><%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
 <html>
 <head>
     <title>Show All Users</title>
@@ -17,39 +14,59 @@
 <body>
 <div class="row justify-content-center">
     <div class="col-auto">
-<div class="table-responsive">
-<table border=1 class="table">
-    <thead>
-    <tr>
-        <th>User Id</th>
-        <th>UserName</th>
-        <th>Email</th>
-        <th>Citt?</th>
-        <th>Phone</th>
-        <th>Ruolo</th>
-        <th colspan=2>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-
-    <c:forEach items="${users}" var="user">
-        <tr>
-            <td><c:out value="${user.id}" /></td>
-            <td><c:out value="${user.userName}" /></td>
-            <td><c:out value="${user.email}" /></td>
-            <td><c:out value="${user.city}" /></td>
-            <td><c:out value="${user.phone}" /></td>
-            <td><c:out value="${user.role}" /></td>
-
-            <td><a href="UserControllerServlet?action=edit&userId=<c:out value="${user.id}"/>">Update</a></td>
-            <td><a href="UserControllerServlet?action=delete&userId=<c:out value="${user.id}"/>">Delete</a></td>
-        </tr>
-    </c:forEach>
-    </tbody>
-</table>
-</div>
-
-<p><a href="/index.jsp" class="btn btn-primary">Dashboard</a></p>
+        <h1>Utenti Registrati</h1>
+        <div class="table-responsive">
+            <table border=1 class="table">
+                <thead>
+                <tr>
+                    <th>User Id</th>
+                    <th>UserName</th>
+                    <th>Email</th>
+                    <th>Citt?</th>
+                    <th>Phone</th>
+                    <th>Ruolo</th>
+                    <th colspan=2>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${users}" var="user">
+                    <tr>
+                        <td>
+                            <c:out value="${user.id}" />
+                        </td>
+                        <td>
+                            <c:out value="${user.userName}" />
+                        </td>
+                        <td>
+                            <c:out value="${user.email}" />
+                        </td>
+                        <td>
+                            <c:out value="${user.city}" />
+                        </td>
+                        <td>
+                            <c:out value="${user.phone}" />
+                        </td>
+                        <td>
+                            <c:out value="${user.role}" />
+                        </td>
+                        <td>
+                            <a href="UserControllerServlet?action=edit&userId=
+														<c:out value="${user.id}"/>">Update
+                            </a>
+                        </td>
+                        <td>
+                            <a href="UserControllerServlet?action=delete&userId=
+														<c:out value="${user.id}"/>">Delete
+                            </a>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+        <p>
+            <a href="/index.jsp" class="btn btn-primary">Dashboard</a>
+        </p>
     </div>
 </div>
 </body>
