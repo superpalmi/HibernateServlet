@@ -20,10 +20,10 @@
     <div class="col-auto">
         <h1> Registra Prenotazione</h1>
         <% if (request.getParameter("action").equalsIgnoreCase("edit")){%>
-        <form action="<%=request.getContextPath()%>/ReservationControllerServlet?action=edit&reservationId=<%=request.getParameter("reservationId")%>&vehicleId=<%=request.getParameter("vehicleId")%>" method="post">
+        <form action="<%=request.getContextPath()%>/ReservationControllerServlet?action=edit&reservationId=<%=request.getParameter("reservationId")%>" method="post">
                 <%}else if(request.getParameter("action").equalsIgnoreCase("create")){%>
-            <form action="<%=request.getContextPath()%>/ReservationControllerServlet?action=insert&vehicleId=<%=request.getParameter("vehicleId")%>" method="post">
-                <%}%>
+            <form action="<%=request.getContextPath()%>/ReservationControllerServlet?action=create&vehicleId=<%=request.getParameter("vehicleId")%>" method="post">
+               <%}%>
                 <div class="table-responsive">
                     <table cellpadding="3pt" class="table">
                         <tr>
@@ -42,6 +42,14 @@
                     <input type="submit" value="Register" class="btn btn-primary"/>
                 </div>
             </form>
+
+                        <%
+                            String login_msg=(String)request.getAttribute("message");
+                            if(login_msg!=null)
+                            out.println("<font color=red size=4px>"+login_msg+"</font>");
+                            %>
+
+
 
     </div>
 </div>

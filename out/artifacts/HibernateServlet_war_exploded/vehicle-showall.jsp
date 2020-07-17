@@ -14,6 +14,7 @@
 <body>
 <div class="row justify-content-center">
     <div class="col-auto">
+        <h1> Veicoli disponibili</h1>
         <div class="table-responsive">
             <table border=1 class="table">
                 <thead>

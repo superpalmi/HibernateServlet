@@ -48,7 +48,7 @@
 
       <a href="UserControllerServlet?action=showAll" class="btn btn-primary" > Lista Utenti </a>
       <a href="VehicleControllerServlet?action=create" class="btn btn-primary" > Registra Veicolo</a>
-      <a href="ReservationControllerServlet?action=showAll" class="btn btn-primary" >Prenotazioni</a>
+      <a href="ReservationControllerServlet?action=showAll" class="btn btn-primary" >Prenotazioni Utenti</a>
 
 
   </div>
