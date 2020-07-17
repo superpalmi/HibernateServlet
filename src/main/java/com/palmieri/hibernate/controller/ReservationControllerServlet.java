@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,9 +25,7 @@ import java.util.List;
 public class ReservationControllerServlet extends HttpServlet {
 
     private static String EDIT_JSP = "/reservation-edit.jsp";
-
     private static String SHOWALL_JSP = "/reservation-showall.jsp?action=showAll";
-    //private static String REGISTER_JSP="/reservation-register.jsp";
     private static String LOGIN_JSP="/user-login.jsp";
     private ReservationDAO reservationDao;
     private VehicleDAO vehicleDAO;
@@ -49,63 +47,52 @@ public class ReservationControllerServlet extends HttpServlet {
     }
         //da semplificare
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //Date dataInizio=(Date) request.getParameter("dataInizio");
         Reservation res=readForm(request, response);
         Date dataInizio = res.getDataInizio();
         Date dataFine=res.getDataFine();
+        String action=request.getParameter("action");
+        String vehicleId = request.getParameter("vehicleId");
 
-        //inserisco i valori nel middleware DAO
-        //String v=request.getParameter("vehicleId");
-        //String action = request.getParameter("action");
         User user = (User) request.getSession().getAttribute("user");
         if(user!=null) {
             boolean error;
             if((dataInizio!=null)&&(dataFine!=null)) {
-                if (request.getParameter("action") != null && request.getParameter("action").equalsIgnoreCase("edit")) {
-                    String action = request.getParameter("action");
+                if (action != null && action.equalsIgnoreCase("edit")) {
                     if (checkDate(request, response) && checkVehicle(request, response)) {
                         editReservation(request, response);
                         request.setAttribute("reservations", user.getReservations());
-                        //request.setAttribute("message", "");
                         RequestDispatcher view = request.getRequestDispatcher(SHOWALL_JSP);
-
                         view.forward(request, response);
                     } else try (PrintWriter out = response.getWriter()) {
                         request.setAttribute("action", "edit");
                         request.setAttribute("reservationId", request.getParameter("reservationId"));
                         request.setAttribute("message", "Veicolo non disponibile nelle date scelte");
-                        RequestDispatcher view = request.getRequestDispatcher("reservation-edit.jsp");
+                        RequestDispatcher view = request.getRequestDispatcher(EDIT_JSP);
 
                         view.forward(request, response);
 
                     }
 
 
-                } else if (request.getParameter("action") != null && request.getParameter("action").equalsIgnoreCase("create") && request.getParameter("vehicleId") != null) {
-                    if (user.getReservations() == null) {
+                } else if (action != null && action.equalsIgnoreCase("create") && vehicleId != null) {
 
-                        //String action = request.getParameter("action");
+                    if (user.getReservations() == null) {
                         insertReservation(request, response);
                         request.setAttribute("reservations", user.getReservations());
-                        //request.setAttribute("message", "");
                         RequestDispatcher view = request.getRequestDispatcher(SHOWALL_JSP);
-
                         view.forward(request, response);
 
                     } else if (checkDate(request, response) && checkVehicle(request, response)) {
-                        //String action = request.getParameter("action");
+
                        insertReservation(request, response);
-    //request.setAttribute("message", "");
                         request.setAttribute("reservations", user.getReservations());
                         RequestDispatcher view = request.getRequestDispatcher(SHOWALL_JSP);
 
                         view.forward(request, response);
 
                     } else try (PrintWriter out = response.getWriter()) {
-
-
                         request.setAttribute("action", "create");
-                        request.setAttribute("vehicleId", request.getParameter("vehicleId"));
+                        request.setAttribute("vehicleId", vehicleId);
                         request.setAttribute("message", "Veicolo non disponibile nelle date scelte");
                         RequestDispatcher view = request.getRequestDispatcher("reservation-edit.jsp");
 
@@ -116,18 +103,17 @@ public class ReservationControllerServlet extends HttpServlet {
                 }
             }else {
 
-                if(request.getParameter("action").equalsIgnoreCase("create")) {
+                if(action.equalsIgnoreCase("create")) {
                     request.setAttribute("action", "create");
-                    request.setAttribute("vehicleId", request.getParameter("vehicleId"));
+                    request.setAttribute("vehicleId", vehicleId);
                 }else {
-
                     request.setAttribute("action", "edit");
                     request.setAttribute("vehicleId", request.getParameter("reservationId"));
 
                 }
-                request.setAttribute("message", "Le date non possono essere lasciate in bianco");
-                RequestDispatcher view = request.getRequestDispatcher("reservation-edit.jsp");
 
+                request.setAttribute("message", "Le date non possono essere lasciate in bianco");
+                RequestDispatcher view = request.getRequestDispatcher(EDIT_JSP);
                 view.forward(request, response);
             }
 
@@ -139,7 +125,6 @@ public class ReservationControllerServlet extends HttpServlet {
         }
 
 
-        //inserisco i valori nella richiesta
 
 
 
@@ -153,18 +138,31 @@ public class ReservationControllerServlet extends HttpServlet {
         Date dataInizio=res.getDataInizio();
         Date dataFine=res.getDataFine();
         List<Reservation> userReservations = user.getReservations();
+
+        boolean result = checkReservation(res, userReservations);
+        return result;
+
+
+    }
+
+    private boolean checkReservation(Reservation res, List<Reservation> reservations){
         boolean result = false;
+        Date dataInizio = res.getDataInizio();
+        Date dataFine = res.getDataFine();
 
-        for (int i=0; i<userReservations.size(); i++){
 
-            if(((dataInizio.after(userReservations.get(i).getDataInizio()) && dataInizio.before(user.getReservations().get(i).getDataFine())) || (dataFine.after(user.getReservations().get(i).getDataInizio()) && dataFine.before(user.getReservations().get(i).getDataFine())))||((dataInizio.equals(user.getReservations().get(i).getDataInizio()))&&(dataFine.equals(user.getReservations().get(i).getDataFine())))){
-                    return result;
+        for (int i=0; i<reservations.size(); i++){
+            Date dI =reservations.get(i).getDataInizio();
+            Date dF = reservations.get(i).getDataFine();
+
+            if(((dataInizio.after(dI) && dataInizio.before(dF)) || (dataFine.after(dI) && dataFine.before(dF)))||((dataInizio.equals(dI))&&(dataFine.equals(dF)))){
+                return result;
 
             }
 
 
-        }return result = true;
-
+        }
+        return result = true;
 
 
 
@@ -179,49 +177,23 @@ public class ReservationControllerServlet extends HttpServlet {
             int vehicleId = Integer.parseInt(request.getParameter("vehicleId"));
             vehicle=vehicleDAO.getVehicle(vehicleId);
             vehicleReservations = vehicle.getReservations();
-            Date dataInizio = res.getDataInizio();
-            Date dataFine = res.getDataFine();
-
-            for (int i=0; i<vehicleReservations.size(); i++){
-
-                if(((dataInizio.after(vehicleReservations.get(i).getDataInizio()) && dataInizio.before(vehicle.getReservations().get(i).getDataFine())) || (dataFine.after(vehicle.getReservations().get(i).getDataInizio()) && dataFine.before(vehicle.getReservations().get(i).getDataFine())))||((dataInizio.equals(vehicle.getReservations().get(i).getDataInizio()))&&(dataFine.equals(vehicle.getReservations().get(i).getDataFine())))){
-                    return result;
-
-                }
+            result=checkReservation(res, vehicleReservations);
+            return result;
 
 
-            }
-            return result = true;
-        }else if(request.getParameter("action").equalsIgnoreCase("edit")){
+        }else if(request.getParameter("action").equalsIgnoreCase("edit")) {
             int id = Integer.parseInt(request.getParameter("reservationId"));
-            res=reservationDao.getReservation(id);
-            vehicle =res.getVehicle();
+            res = reservationDao.getReservation(id);
+            vehicle = res.getVehicle();
             vehicleReservations = vehicle.getReservations();
-            Date dataInizio = res.getDataInizio();
-            Date dataFine = res.getDataFine();
-
-            for (int i=0; i<vehicleReservations.size(); i++) {
-
-                if (((dataInizio.after(vehicleReservations.get(i).getDataInizio()) && dataInizio.before(vehicle.getReservations().get(i).getDataFine())) || (dataFine.after(vehicle.getReservations().get(i).getDataInizio()) && dataFine.before(vehicle.getReservations().get(i).getDataFine()))) || ((dataInizio.equals(vehicle.getReservations().get(i).getDataInizio())) && (dataFine.equals(vehicle.getReservations().get(i).getDataFine())))) {
-                    return result;
-
-                }
-            }
-
+            result = checkReservation(res, vehicleReservations);
+            return result;
+        }
 
             return result = true;
         }
 
-        return result = true;
 
-
-        //Reservation old=reservationDao.getReservation(res.getId());
-        //int id=Integer.parseInt(request.getParameter("vehicleId"));
-
-
-
-
-    }
 
 
 
@@ -260,11 +232,9 @@ public class ReservationControllerServlet extends HttpServlet {
                 forward = EDIT_JSP;
                int i = Integer.parseInt(request.getParameter("reservationId"));
                Reservation res = reservationDao.getReservation(i);
-                //int vehicleId = Integer.parseInt(request.getParameter("vehicleId"));
-                //editUser(request, response);
                 request.setAttribute("message", "");
                 request.setAttribute("reservationId", res.getId());
-                //request.setAttribute("vehicleId", vehicleId);
+
 
             } else if (action.equalsIgnoreCase("showAll")) {
                 if(user.getRole().equalsIgnoreCase("superuser")){

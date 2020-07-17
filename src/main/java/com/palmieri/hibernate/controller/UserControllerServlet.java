@@ -19,7 +19,6 @@ import com.palmieri.hibernate.model.User;
 public class UserControllerServlet extends HttpServlet {
     private static String EDIT_JSP = "/user-edit.jsp";
     private static String SHOWALL_JSP = "/user-showall.jsp?action=showAll";
-    private static String REGISTER_JSP="/user-register.jsp";
     private static String USERDETAIL_JSP="/user-detail.jsp";
     private static String INDEX_JSP="/index.jsp";
 
@@ -44,38 +43,44 @@ public class UserControllerServlet extends HttpServlet {
                           HttpServletResponse response) throws ServletException, IOException {
         //prendo i valori dalla form di register
        String forward ="";
+       String action=request.getParameter("action");
        User user = (User) request.getSession().getAttribute("user");
        String password1= request.getParameter("password1");
        String password2=  request.getParameter("password2");
         if(user!=null){
+            if (action!=null){
+                if(action.equalsIgnoreCase("edit")){
+                    if (password1.equals(password2)) {
+                        editUser(request, response);
+                        forward = INDEX_JSP;
+                    } else {
+                        PrintWriter out = response.getWriter();
+                        out.println("<script type=\"text/javascript\">");
+                        out.println("alert('Le password non corrispondono');");
+                        out.println("location='user-edit.jsp';");
+                        out.println("</script>");
 
-            if(request.getParameter("action")!=null && request.getParameter("action").equalsIgnoreCase("edit")){
-                if (password1.equals(password2)) {
-                    editUser(request, response);
-                    forward = INDEX_JSP;
-                } else {
-                    PrintWriter out = response.getWriter();
-                    out.println("<script type=\"text/javascript\">");
-                    out.println("alert('Le password non corrispondono');");
-                    out.println("location='user-edit.jsp';");
-                    out.println("</script>");
+                    }
+                }else if (action.equalsIgnoreCase("insert")) {
 
+                    if (password1.equals(password2)) {
+                        insertUser(request, response);
+                        forward = INDEX_JSP;
+                    } else {
+                        PrintWriter out = response.getWriter();
+                        out.println("<script type=\"text/javascript\">");
+                        out.println("alert('Le password non corrispondono');");
+                        out.println("location='user-edit.jsp';");
+                        out.println("</script>");
+
+                    }
                 }
             }
-        } else if (request.getParameter("action")!=null && request.getParameter("action").equalsIgnoreCase("insert")) {
 
-            if (password1.equals(password2)) {
-                insertUser(request, response);
-                forward = INDEX_JSP;
-            } else {
-                PrintWriter out = response.getWriter();
-                out.println("<script type=\"text/javascript\">");
-                out.println("alert('Le password non corrispondono');");
-                out.println("location='user-edit.jsp';");
-                out.println("</script>");
 
-            }
         }
+
+
         RequestDispatcher view = request.getRequestDispatcher(forward);
 
         view.forward(request, response);
@@ -84,6 +89,8 @@ public class UserControllerServlet extends HttpServlet {
 
 
     }
+
+
 
 
 
@@ -129,7 +136,9 @@ public class UserControllerServlet extends HttpServlet {
             }
         } else if(user==null && action.equalsIgnoreCase("create")) {
             forward=("user-edit.jsp");
+
         }else if(user==null){
+
             forward=("user-login.jsp");
             RequestDispatcher view = request.getRequestDispatcher(forward);
             view.forward(request, response);

@@ -43,23 +43,27 @@ public class VehicleControllerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //prendo l'utente della sessione
         User user = (User) request.getSession().getAttribute("user");
+        String role = user.getRole();
 
         //se l'user non è  nullo allora posso registrare e modificare i veicoli
 
-        if (user != null && user.getRole().equalsIgnoreCase("superuser")) {
+        if (user != null && role.equalsIgnoreCase("superuser")) {
                 //se action=edit allora modifico il veicolo già esistente
                 if (request.getParameter("action") != null && request.getParameter("action").equalsIgnoreCase("edit")) {
 
                     editVehicle(request, response);
 
                 } else if(request.getParameter("action") != null && request.getParameter("action").equalsIgnoreCase("insert")) {
+
                     insertVehicle(request, response);
                 }
+
                 request.setAttribute("vehicles", vehicleDao.getAllVehicles());
                 RequestDispatcher view = request.getRequestDispatcher(SHOWALL_JSP);
 
                 view.forward(request, response);
             } else {
+
                 RequestDispatcher view = request.getRequestDispatcher(LOGIN_JSP);
 
                 view.forward(request, response);
@@ -72,11 +76,12 @@ public class VehicleControllerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String forward="";
         User user = (User) request.getSession().getAttribute("user");
+        String role=user.getRole();
         String action = request.getParameter("action");
 
-        if(request.getSession().getAttribute("user")!=null) {
+        if(user!=null) {
 
-            if(user.getRole().equalsIgnoreCase("superuser")){
+            if(role.equalsIgnoreCase("superuser")){
 
                 if (action.equalsIgnoreCase("delete")) {
                     forward = SHOWALL_JSP;
@@ -89,6 +94,7 @@ public class VehicleControllerServlet extends HttpServlet {
                     int i = Integer.parseInt(request.getParameter("vehicleId"));
                     //editUser(request, response);
                     request.setAttribute("vehicleId", vehicleDao.getVehicle(i));
+
                 }else if(action.equalsIgnoreCase("create")){
                     forward=EDIT_JSP;
 
