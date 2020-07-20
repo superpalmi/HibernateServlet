@@ -10,21 +10,30 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.16/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#dtBasicExample').DataTable();
+    });
+</script>
 <div class="row justify-content-center">
     <div class="col-auto">
         <h1> Veicoli disponibili</h1>
-        <div class="table-responsive">
-            <table border=1 class="table">
+        <div class="table-responsive" style="width: 100%">
+            <table  id="dtBasicExample" border=1 class="table table-striped table-bordered table-sm" >
                 <thead>
                 <tr>
-                    <th>Vehicle Id</th>
-                    <th>Brand</th>
-                    <th>Model</th>
-                    <th>Plate</th>
-                    <th>Immatricolation Date</th>
-                    <th colspan=2>Action</th>
+                    <th class="th-sm">Vehicle Id</th>
+                    <th class="th-sm">Brand</th>
+                    <th class="th-sm">Model</th>
+                    <th class="th-sm">Plate</th>
+                    <th class="th-sm">Immatricolation Date</th>
+                    <th class="th-sm">Action</th>
+                    <th class="th-sm">Action</th>
+                    <th class="th-sm">Action</th>
                 </tr>
                 </thead>
                 <tbody>

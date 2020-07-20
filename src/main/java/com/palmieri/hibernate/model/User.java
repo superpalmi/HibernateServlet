@@ -36,7 +36,7 @@ public class User implements Serializable {
 
 
 
-    @OneToMany (cascade = {CascadeType.ALL})
+    @OneToMany ( cascade = CascadeType.REMOVE)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Reservation> reservations;
 

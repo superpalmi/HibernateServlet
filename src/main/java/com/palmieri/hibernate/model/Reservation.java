@@ -16,11 +16,12 @@ public class Reservation {
     @Column(name="dataFine", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date dataFine;
-    @OneToOne()
-    @JoinColumn(name="UserId")
+
+    @ManyToOne()
+    @JoinColumn(name= "users")
     private User user;
-    @OneToOne()
-    @JoinColumn(name="VehicleId")
+    @ManyToOne()
+    @JoinColumn(name= "vehicles")
     private Vehicle vehicle;
 
     public int getId() {
@@ -64,6 +65,25 @@ public class Reservation {
     }
 
 
+    @ManyToOne(optional = false)
+    private User users;
 
+    public User getUsers() {
+        return users;
+    }
 
+    public void setUsers(User users) {
+        this.users = users;
+    }
+
+    @ManyToOne(optional = false)
+    private Vehicle vehicles;
+
+    public Vehicle getVehicles() {
+        return vehicles;
+    }
+
+    public void setVehicles(Vehicle vehicles) {
+        this.vehicles = vehicles;
+    }
 }

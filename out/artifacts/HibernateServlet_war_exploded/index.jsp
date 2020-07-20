@@ -20,7 +20,7 @@
 <div class="row justify-content-center">
   <div class="col-auto">
     <div class="container pt-3">
-      <h1> Benvenuto </h1>
+      <h1> Dashboard</h1>
       <br/>
     </div>
 

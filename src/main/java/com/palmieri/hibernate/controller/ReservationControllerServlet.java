@@ -223,7 +223,7 @@ public class ReservationControllerServlet extends HttpServlet {
                     forward = SHOWALL_JSP;
 
                     reservationDao.deleteReservation(reservationId);
-                    request.setAttribute("reservations", user.getReservations());
+                    request.setAttribute("reservations", reservationDao.getAllReservations());
 
 
                 }

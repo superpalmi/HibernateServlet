@@ -10,23 +10,31 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.16/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#dtBasicExample').DataTable();
+    });
+</script>
+
 <div class="row justify-content-center">
     <div class="col-auto">
         <h1> Prenotazioni</h1>
-        <div class="table-responsive">
-            <table border=1 class="table">
+        <div class="table-responsive"  style="width: 100%">
+            <table id="dtBasicExample" border=1 class="table table-striped table-bordered table-sm" >
                 <thead>
                 <tr>
-                    <th>Reservation Id</th>
-                    <th>User Id</th>
-                    <th>Vehicle Id</th>
-                    <th>Data di Inizio</th>
-                    <th>Data di Fine</th>
-                    <th>Username</th>
-                    <th>Targa Veicolo</th>
-                    <th colspan=2>Action</th>
+                    <th class="th-sm">Reservation Id</th>
+                    <th class="th-sm">User Id</th>
+                    <th class="th-sm">Vehicle Id</th>
+                    <th class="th-sm">Data di Inizio</th>
+                    <th class="th-sm">Data di Fine</th>
+                    <th class="th-sm">Username</th>
+                    <th class="th-sm">Targa Veicolo</th>
+                    <th class="th-sm">Action</th>
+                    <th class="th-sm">Action</th>
                 </tr>
                 </thead>
                 <tbody>

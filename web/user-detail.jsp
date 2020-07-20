@@ -14,24 +14,32 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.16/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#dtBasicExample').DataTable();
+    });
+</script>
 
 <div class="row justify-content-center">
 
     <div class="col-auto">
         <h1>Profilo Utente</h1>
-        <div class="table-responsive">
-            <table border=1 class="table-responsive">
+        <div class="table-responsive"  style="width: 100%">
+            <table border=1 class="table">
                 <thead>
                 <tr>
-                    <th>User Id</th>
-                    <th>UserName</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>City</th>
-                    <th>Ruolo</th>
-                    <th colspan=2>Action</th>
+                    <th class="th-sm">User Id</th>
+                    <th class="th-sm">UserName</th>
+                    <th class="th-sm">Email</th>
+                    <th class="th-sm">Phone</th>
+                    <th class="th-sm">City</th>
+                    <th class="th-sm">Ruolo</th>
+                    <th class="th-sm">Action</th>
+                    <th class="th-sm">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -79,18 +87,21 @@
     </div>
     <div class="col-auto">
         <h1>Prenotazioni Effettuate</h1>
-        <div class="table-responsive">
-            <table border=1 class="table-responsive">
+        <div class="table-responsive" style="width: 100%">
+            <table id="dtBasicExample" border=1 class="table table-striped table-bordered table-sm" >
                 <thead>
                 <tr>
-                    <th>Prenotazione</th>
+                   <th class="th-sm">Dettagli veicolo</th>
+                    <th class="th-sm">Data di Inizio</th>
+                    <th class="th-sm">Data di Fine</th>
+                    <th class="th-sm">Action</th>
                 </tr>
                 </thead>
                 <tbody>
                 <c:forEach items="${user.reservations}" var="reservation">
                     <tr>
                         <td>
-                            <c:out value="Id: ${reservation.id} Targa: ${reservation.vehicle.plate}" />
+                            <c:out value="Id: ${reservation.vehicle.id} Targa: ${reservation.vehicle.plate}" />
                         </td>
                         <td>
                             <fmt:formatDate value="${reservation.dataInizio}"  />
