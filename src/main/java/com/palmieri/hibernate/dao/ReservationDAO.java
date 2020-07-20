@@ -65,7 +65,16 @@ public class ReservationDAO {
 
         try(Session session = HibernateConf.getSessionFactory().openSession()) {
             trns = session.beginTransaction();
+
             Reservation reservation = (Reservation) session.load(Reservation.class, reservationId);
+            User user = (User) session.load(User.class, reservation.getUser().getId());
+            Vehicle vehicle=(Vehicle) session.load(Vehicle.class, reservation.getVehicle().getId());
+            user.getReservations().remove(reservation);
+            vehicle.getReservations().remove(reservation);
+
+
+            session.save(user);
+            session.save(vehicle);
 
             session.delete(reservation);
             trns.commit();

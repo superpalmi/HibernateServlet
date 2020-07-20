@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "vehicles")
+@Table(name = "vehicle")
 public class Vehicle implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,7 +25,7 @@ public class Vehicle implements Serializable {
     @Column(name="type")
     private String type;
 
-    @OneToMany ( cascade = CascadeType.REMOVE)
+    @OneToMany (mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval=true)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Reservation> reservations;
 

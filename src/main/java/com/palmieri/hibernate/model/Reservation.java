@@ -4,7 +4,7 @@ import java.util.Date;
 
 
 @Entity
-@Table (name = "reservations")
+@Table (name = "reservation")
 public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,10 +18,10 @@ public class Reservation {
     private Date dataFine;
 
     @ManyToOne()
-    @JoinColumn(name= "users")
+    @JoinColumn(name= "user", nullable = false)
     private User user;
     @ManyToOne()
-    @JoinColumn(name= "vehicles")
+    @JoinColumn(name= "vehicle", nullable = false)
     private Vehicle vehicle;
 
     public int getId() {
@@ -65,25 +65,5 @@ public class Reservation {
     }
 
 
-    @ManyToOne(optional = false)
-    private User users;
 
-    public User getUsers() {
-        return users;
-    }
-
-    public void setUsers(User users) {
-        this.users = users;
-    }
-
-    @ManyToOne(optional = false)
-    private Vehicle vehicles;
-
-    public Vehicle getVehicles() {
-        return vehicles;
-    }
-
-    public void setVehicles(Vehicle vehicles) {
-        this.vehicles = vehicles;
-    }
 }

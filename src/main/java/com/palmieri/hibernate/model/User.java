@@ -9,7 +9,7 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 public class User implements Serializable {
 
     @Id
@@ -36,7 +36,7 @@ public class User implements Serializable {
 
 
 
-    @OneToMany ( cascade = CascadeType.REMOVE)
+    @OneToMany (mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Reservation> reservations;
 
