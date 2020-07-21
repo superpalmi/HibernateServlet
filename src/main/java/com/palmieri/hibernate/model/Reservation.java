@@ -17,10 +17,10 @@ public class Reservation {
     @Temporal(TemporalType.DATE)
     private Date dataFine;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name= "user", nullable = false)
     private User user;
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name= "vehicle", nullable = false)
     private Vehicle vehicle;
 

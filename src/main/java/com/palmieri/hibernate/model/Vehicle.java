@@ -25,7 +25,7 @@ public class Vehicle implements Serializable {
     @Column(name="type")
     private String type;
 
-    @OneToMany (mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval=true)
+    @OneToMany (mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval=true, fetch = FetchType.EAGER)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Reservation> reservations;
 

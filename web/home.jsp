@@ -20,12 +20,17 @@
 <body>
 <div class="row justify-content-center">
     <div class="col-auto">
-    <div class="container-md">
-        <h1> Gestione Prenotazioni</h1>
+        <h1 class="display-1"> Gestione Prenotazioni</h1>
+        <div class="container-md">
 
-        <a href="user-login.jsp" class="btn btn-primary" > Login </a>
-        <a href="UserControllerServlet?action=create"  class="btn btn-primary" > Registrati</a>
-    </div>
+            <div class="col-lg-4 text-center">
+                <a href="user-login.jsp" class="btn btn-primary" > Login </a>
+                <a href="UserControllerServlet?action=create"  class="btn btn-primary" >Registrati</a>
+            </div>
+
+
+
+        </div>
     </div>
 </div>
 

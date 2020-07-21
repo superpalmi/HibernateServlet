@@ -28,6 +28,8 @@ public class ReservationDAO {
             transaction = session.beginTransaction();
             // save the vehicle object
             session.save(reservation);
+            session.update(reservation.getUser());
+            session.update(reservation.getVehicle());
 
             // commit transaction
             transaction.commit();
@@ -73,8 +75,8 @@ public class ReservationDAO {
             vehicle.getReservations().remove(reservation);
 
 
-            session.save(user);
-            session.save(vehicle);
+            session.update(user);
+            session.update(vehicle);
 
             session.delete(reservation);
             trns.commit();
@@ -138,6 +140,8 @@ public class ReservationDAO {
 
 
             session.update(reservation);
+            session.refresh(reservation.getVehicle());
+            session.refresh(reservation.getUser());
             trns.commit();
 
 

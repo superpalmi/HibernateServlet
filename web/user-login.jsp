@@ -22,34 +22,52 @@
 <div class="row justify-content-center">
     <div class="col-auto">
 <div class="container">
-<h1> Login Utente </h1>
-<br/>
+
+    <h1 class="display-1"> Login Utente </h1>
     <div class="row">
+
         <form action="<%=request.getContextPath()%>/LoginControllerServlet" method="post" class="form-group">
                 <div class="table-responsive">
                  <table class="table" cellpadding="3pt">
                      <tr>
                          <td>UserName :</td>
-                         <td><input type="text" name="username" size="30" /></td>
+                         <td>
+                             <div class="form-group"> <input type="text" name="username" size="30" />  </div>
+
+                         </td>
                      </tr>
                         <tr>
                          <td>Password :</td>
-                        <td><input type="password" name="password" size="30" /></td>
+
+                        <td>
+                            <div class="form-group">
+                                <input type="password" name="password" size="30" />
+                            </div>
+
+                        </td>
                      </tr>
 
 
                 </table>
-                    <input type="submit" value="Login"  class="btn btn-primary"/>
+                    <div class="form-group">
+                        <input type="submit" value="Login"  class="btn btn-primary"/>
+                        <a href="/home.jsp" class="btn btn-secondary" role="button">Home</a>
+                    </div>
+
                 </div>
 
 
         </form>
 
     </div>
-    <a href="/home.jsp" class="btn btn-secondary" role="button">Home</a>
+
+
 </div>
     </div>
 </div>
+
+
+
 
 
 </body>

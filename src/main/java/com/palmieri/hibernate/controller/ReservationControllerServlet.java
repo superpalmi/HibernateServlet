@@ -131,13 +131,10 @@ public class ReservationControllerServlet extends HttpServlet {
     }
 
     private boolean checkDate(HttpServletRequest request, HttpServletResponse response){
-        int id=Integer.parseInt(request.getParameter("reservationId"));
 
         User user = (User) request.getSession().getAttribute("user");
         Reservation res = readForm(request,response);
-        res.setId(id);
-        Date dataInizio=res.getDataInizio();
-        Date dataFine=res.getDataFine();
+
         List<Reservation> userReservations = user.getReservations();
 
         boolean result = checkReservation(res, userReservations);
@@ -171,20 +168,28 @@ public class ReservationControllerServlet extends HttpServlet {
     }
 
     private boolean checkVehicle(HttpServletRequest request, HttpServletResponse response){
-        int id=Integer.parseInt(request.getParameter("reservationId"));
-        Reservation old=reservationDao.getReservation(id);
-
         Vehicle vehicle;
         List<Reservation> vehicleReservations;
         boolean result = false;
         Reservation res = readForm(request, response);
-
-
-            int vehicleId =old.getVehicle().getId();
+        if(request.getParameter("action").equalsIgnoreCase("create")){
+            int vehicleId = Integer.parseInt(request.getParameter("vehicleId"));
             vehicle=vehicleDAO.getVehicle(vehicleId);
             vehicleReservations = vehicle.getReservations();
             result=checkReservation(res, vehicleReservations);
             return result;
+
+
+        }else if(request.getParameter("action").equalsIgnoreCase("edit")) {
+            int id = Integer.parseInt(request.getParameter("reservationId"));
+            res = reservationDao.getReservation(id);
+            vehicle = res.getVehicle();
+            vehicleReservations = vehicle.getReservations();
+            result = checkReservation(res, vehicleReservations);
+            return result;
+        }
+
+        return result = true;
 
 
         }
@@ -296,8 +301,8 @@ public class ReservationControllerServlet extends HttpServlet {
         reservation.setId(id);
         reservation.setUser(old.getUser());
         reservation.setVehicle(old.getVehicle());
-        old.getUser().setReservations(reservation);
-        old.getVehicle().setReservations(reservation);
+        //old.getUser().setReservations(reservation);
+        //old.getVehicle().setReservations(reservation);
         reservationDao.updateReservation(reservation);
 
 
@@ -314,10 +319,11 @@ public class ReservationControllerServlet extends HttpServlet {
             Reservation reservation = readForm(request, response);
             reservation.setVehicle(vehicle);
             reservation.setUser(user);
-            vehicle.setReservations(reservation);
-           user.setReservations(reservation);
-           userDAO.updateUser(user);
-           vehicleDAO.updateVehicle(vehicle);
+
+            //vehicle.setReservations(reservation);
+            //user.setReservations(reservation);
+            //userDAO.updateUser(user);
+            //vehicleDAO.updateVehicle(vehicle);
             reservationDao.saveReservation(reservation);
 
 
