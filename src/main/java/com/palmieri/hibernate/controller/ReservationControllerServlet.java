@@ -85,6 +85,7 @@ public class ReservationControllerServlet extends HttpServlet {
                     } else if (checkDate(request, response) && checkVehicle(request, response)) {
 
                        insertReservation(request, response);
+                       user=userDAO.getUser(user.getId());
                         request.setAttribute("reservations", user.getReservations());
                         RequestDispatcher view = request.getRequestDispatcher(SHOWALL_JSP);
 

@@ -128,6 +128,7 @@ public class UserControllerServlet extends HttpServlet {
 
                 } else if(action.equalsIgnoreCase("showUser")){
                     forward = USERDETAIL_JSP;
+                    user=userDao.getUser(user.getId());
                     request.setAttribute("user", user);
                 }else forward = INDEX_JSP;
 
