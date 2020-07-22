@@ -36,7 +36,7 @@ public class User implements Serializable {
 
 
 
-    @OneToMany (mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany (mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Reservation> reservations;
 
