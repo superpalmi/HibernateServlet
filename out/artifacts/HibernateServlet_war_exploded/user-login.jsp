@@ -23,7 +23,7 @@
     <div class="col-auto">
 <div class="container">
 
-    <h1 class="display-1"> Login Utente </h1>
+    <h1> Login Utente </h1>
     <div class="row">
 
         <form action="<%=request.getContextPath()%>/LoginControllerServlet" method="post" class="form-group">

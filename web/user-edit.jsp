@@ -68,6 +68,8 @@
                         </tr>
                     </table>
                     <input type="submit" value="Register" class="btn btn-primary" />
+                    <a href="/home.jsp" class="btn btn-dark">Torna alla Home</a>
+
                 </div>
             </form>
 
@@ -78,9 +80,10 @@
                             %>
 
     </div>
+
+
 </div>
-<p>
-    <a href="/home.jsp">Torna alla Home</a>
-</p>
+
+
 </body>
 </html>

@@ -62,10 +62,8 @@
     </div>
     <p />
     <input type="submit" value="Vehicle Register" class="btn btn-primary"/>
+        <a href="/index.jsp" class="btn btn-dark">Dashboard</a>
 </form>
-<p>
-    <a href="/index.jsp" class="btn btn-primary">Dashboard</a>
-</p>
     </div>
 </div>
 </body>

@@ -19,13 +19,14 @@ public class LogoutControllerServlet extends HttpServlet {
         PrintWriter out=response.getWriter();
 
         request.getRequestDispatcher("home.jsp").include(request, response);
+        request.setAttribute("message", "log out effettuato");
 
         HttpSession session=request.getSession();
         session.invalidate();
 
-        out.print("<p> You are successfully logged out! <p>");
 
-        out.close();
+
+
 
     }
 }

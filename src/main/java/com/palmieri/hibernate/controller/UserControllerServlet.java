@@ -123,11 +123,7 @@ public class UserControllerServlet extends HttpServlet {
                         forward = SHOWALL_JSP;
                         request.setAttribute("users", userDao.getAllUsers());
                     }else {
-                        PrintWriter out = response.getWriter();
-                        out.println("<script type=\"text/javascript\">");
-                        out.println("alert('Utente non autorizzato');");
-                        out.println("location='index.jsp';");
-                        out.println("</script>");
+                        request.setAttribute("message", "utente non autorizzato");
                         forward = INDEX_JSP;
 
                     }

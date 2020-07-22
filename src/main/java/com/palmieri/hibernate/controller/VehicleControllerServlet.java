@@ -23,6 +23,7 @@ public class VehicleControllerServlet extends HttpServlet {
 
     private static final String EDIT_JSP = "/vehicle-edit.jsp";
     private static final String SHOWALL_JSP = "/vehicle-showall.jsp?action=showAll";
+    private static final String INDEX_JSP="/index.jsp";
 
     private static final String LOGIN_JSP="/user-login.jsp";
 
@@ -102,11 +103,8 @@ public class VehicleControllerServlet extends HttpServlet {
 
 
             } else {
-                PrintWriter out = response.getWriter();
-                out.println("<script type=\"text/javascript\">");
-                out.println("alert('Utente non autorizzato');");
-                out.println("location='index.jsp';");
-                out.println("</script>");
+                request.setAttribute("message", "utente non autorizzato");
+                forward=INDEX_JSP;
             }
             if(action.equalsIgnoreCase("showAll")){
                 forward = SHOWALL_JSP;

@@ -27,6 +27,7 @@ public class ReservationControllerServlet extends HttpServlet {
     private static String EDIT_JSP = "/reservation-edit.jsp";
     private static String SHOWALL_JSP = "/reservation-showall.jsp?action=showAll";
     private static String LOGIN_JSP="/user-login.jsp";
+    private static String INDEX_JSP="/index.jsp";
     private ReservationDAO reservationDao;
     private VehicleDAO vehicleDAO;
     private UserDAO userDAO;
@@ -243,11 +244,8 @@ public class ReservationControllerServlet extends HttpServlet {
                     forward = SHOWALL_JSP;
                     request.setAttribute("reservations", reservationDao.getAllReservations());
                 }else {
-                    PrintWriter out = response.getWriter();
-                    out.println("<script type=\"text/javascript\">");
-                    out.println("alert('Utente non autorizzato');");
-                    out.println("location='index.jsp';");
-                    out.println("</script>");
+                    request.setAttribute("message", "Veicolo non disponibile nelle date scelte");
+                    forward= INDEX_JSP;
                 }
             }
         }else forward=LOGIN_JSP;

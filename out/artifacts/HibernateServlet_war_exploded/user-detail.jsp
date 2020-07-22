@@ -123,13 +123,15 @@
         <p>
 
             <a href="VehicleControllerServlet?action=showAll" class="btn btn-primary"> Aggiungi una Prenotazione </a>
+
         </p>
     </div>
 
 </div>
 <div class="row justify-content-center">
     <div class="col-auto">
-        <a href="/index.jsp" class="btn btn-primary">Dashboard</a>
+        <a href="/index.jsp" class="btn btn-dark">Dashboard</a>
+
     </div>
 </div>
 

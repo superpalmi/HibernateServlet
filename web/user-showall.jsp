@@ -82,7 +82,7 @@
             </table>
         </div>
         <p>
-            <a href="/index.jsp" class="btn btn-primary">Dashboard</a>
+            <a href="/index.jsp" class="btn btn-dark">Dashboard</a>
         </p>
     </div>
 </div>

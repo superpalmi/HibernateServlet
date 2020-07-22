@@ -36,6 +36,12 @@
     </div>
   </div>
 </div>
+<%
+  String login_msg=(String)request.getAttribute("message");
+  if(login_msg!=null)
+    out.println("<font color=red size=4px>"+login_msg+"</font>");
+%>
+
 <c:if test="${user.role=='superuser'}">
 <div class="row justify-content-center">
   <div class="col-auto">

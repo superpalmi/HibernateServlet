@@ -20,13 +20,32 @@
 <body>
 <div class="row justify-content-center">
     <div class="col-auto">
-        <h1 class="display-1"> Gestione Prenotazioni</h1>
-        <div class="container-md">
+        <h1> Gestione Prenotazioni</h1>
+        <div class="container pt-3">
 
-            <div class="col-lg-4 text-center">
-                <a href="user-login.jsp" class="btn btn-primary" > Login </a>
-                <a href="UserControllerServlet?action=create"  class="btn btn-primary" >Registrati</a>
+            <div class="row justify-content-center">
+                <div class="col-lg-4 text-center">
+                    <a href="user-login.jsp" class="btn btn-primary" > Login </a>
+                </div>
+
             </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-4 text-center">
+                    <br/>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-4 text-center">
+                    <a href="UserControllerServlet?action=create"  class="btn btn-primary" >Registrati</a>
+                </div>
+            </div>
+
+            <%
+                String login_msg=(String)request.getAttribute("message");
+                if(login_msg!=null)
+                    out.println("<font color=green size=4px>"+login_msg+"</font>");
+            %>
 
 
 

@@ -40,6 +40,7 @@
                         </tr>
                     </table>
                     <input type="submit" value="Register" class="btn btn-primary"/>
+                    <a href="/index.jsp" class="btn btn-dark">Dashboard</a>
                 </div>
             </form>
 
@@ -53,10 +54,6 @@
 
     </div>
 </div>
-<div class="row">
-    <div class="col">
-        <a href="/index.jsp" class="btn btn-primary">Dashboard</a>
-    </div>
-</div>
+
 </body>
 </html>
