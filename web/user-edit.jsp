@@ -20,8 +20,8 @@
     <div class="col-auto">
         <h1> Inserimento dati Utente</h1>
         <br/><% if (request.getParameter("action").equalsIgnoreCase("edit")){%>
-        <form action="<%=request.getContextPath()%>/UserControllerServlet?action=edit&userId=<%=request.getParameter("userId")%>" method="post"><%}else if(request.getParameter("action").equalsIgnoreCase("insert")){%>
-            <form action="<%=request.getContextPath()%>/UserControllerServlet?action=insert" method="post"><%}%>
+        <form action="<%=request.getContextPath()%>/UserControllerServlet?action=edit&userId=<%=request.getParameter("userId")%>" method="post"><%}else if(request.getParameter("action").equalsIgnoreCase("create")){%>
+            <form action="<%=request.getContextPath()%>/UserControllerServlet?action=create" method="post"><%}%>
                 <div class="table-responsive">
                     <table cellpadding="3pt" class="table">
                         <tr>
@@ -70,10 +70,17 @@
                     <input type="submit" value="Register" class="btn btn-primary" />
                 </div>
             </form>
+
+                <%
+                            String login_msg=(String)request.getAttribute("message");
+                            if(login_msg!=null)
+                            out.println("<font color=red size=4px>"+login_msg+"</font>");
+                            %>
+
     </div>
 </div>
 <p>
-    <a href="/index.jsp">Dashboard</a>
+    <a href="/home.jsp">Torna alla Home</a>
 </p>
 </body>
 </html>

@@ -54,30 +54,36 @@ public class UserControllerServlet extends HttpServlet {
                         editUser(request, response);
                         forward = INDEX_JSP;
                     } else {
-                        PrintWriter out = response.getWriter();
-                        out.println("<script type=\"text/javascript\">");
-                        out.println("alert('Le password non corrispondono');");
-                        out.println("location='user-edit.jsp';");
-                        out.println("</script>");
-
+                        request.setAttribute("action", "edit");
+                        request.setAttribute("message", "Le password non corrispondono");
+                        forward=EDIT_JSP;
                     }
-                }else if (action.equalsIgnoreCase("insert")) {
+                }else if (action.equalsIgnoreCase("create")) {
 
                     if (password1.equals(password2)) {
                         insertUser(request, response);
                         forward = INDEX_JSP;
                     } else {
-                        PrintWriter out = response.getWriter();
-                        out.println("<script type=\"text/javascript\">");
-                        out.println("alert('Le password non corrispondono');");
-                        out.println("location='user-edit.jsp';");
-                        out.println("</script>");
+                        request.setAttribute("action", "create");
+                        request.setAttribute("message", "Le password non corrispondono");
+                        forward=EDIT_JSP;
 
                     }
                 }
             }
 
 
+        }else if (action.equalsIgnoreCase("create")) {
+
+            if (password1.equals(password2)) {
+                insertUser(request, response);
+                forward = INDEX_JSP;
+            } else {
+                request.setAttribute("action", "create");
+                request.setAttribute("message", "Le password non corrispondono");
+                forward=EDIT_JSP;
+
+            }
         }
 
 
